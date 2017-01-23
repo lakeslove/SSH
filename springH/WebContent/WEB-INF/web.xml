@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  
+  <display-name>WellnessITAdmin</display-name>
+  
+  <session-config>
+    <session-timeout>60</session-timeout>
+    <cookie-config>
+      <name>springH</name>
+      <http-only>true</http-only>
+    </cookie-config>
+  </session-config>
   <welcome-file-list>
     <welcome-file>index.htm</welcome-file>
   </welcome-file-list>
