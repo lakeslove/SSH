@@ -1,0 +1,7 @@
+<H2>500 Internal Server Error </H2>
+	<hr />
+	サーバ内部エラー。<br>
+	{<br>
+	"reason":"Internal Server Error",<br>
+	"message":"There is no this user"<br>
+	}

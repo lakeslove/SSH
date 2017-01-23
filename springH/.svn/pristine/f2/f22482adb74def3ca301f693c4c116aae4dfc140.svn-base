@@ -1,0 +1,121 @@
+package com.lx.models;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="jp_post_area")
+public class PostArea implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6137279744955162255L;
+
+	
+	/**
+	 * 局所ID
+	 */
+	@Id
+	@Column(name = "id", insertable = false, updatable = false)
+	private Long id;
+	
+	/**
+	 * 局所コード
+	 */
+	@Column(name = "post_area_code")
+	private String postAreaCode;
+	
+	/**
+	 * 局名
+	 */
+	@Column(name = "post_area_name")
+	private String postAreaName;
+	
+	/**
+	 * 作成者ID
+	 */
+	@Column(name = "create_user_id")
+	private long createUserId;
+	
+	/**
+	 * 作成日時
+	 */
+	@Column(name = "create_date", insertable = false, updatable = false)
+	private Timestamp createDate;
+	
+	/**
+	 * 更新者ID
+	 */
+	@Column(name = "update_user_id")
+	private long updateUserId;
+
+	/**
+	 * 更新日時
+	 */
+	@Column(name = "update_date", insertable = false, updatable = true)
+	private Timestamp updateDate;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPostAreaCode() {
+		return postAreaCode;
+	}
+
+	public void setPostAreaCode(String postAreaCode) {
+		this.postAreaCode = postAreaCode;
+	}
+
+	public String getPostAreaName() {
+		return postAreaName;
+	}
+
+	public void setPostAreaName(String postAreaName) {
+		this.postAreaName = postAreaName;
+	}
+
+	public long getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(long createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
+	public long getUpdateUserId() {
+		return updateUserId;
+	}
+
+	public void setUpdateUserId(long updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+
+
+}

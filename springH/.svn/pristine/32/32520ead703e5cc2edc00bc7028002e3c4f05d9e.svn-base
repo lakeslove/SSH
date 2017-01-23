@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+
+
+button,input[type=button],input[type=reset],input[type=submit]{
+	font-size: 12px;
+	border-ridus: 5px;
+	line-height: 12px;
+	height: 22px;
+	/* line-height: 16px; */
+	/* height: 22px; */
+	/* width: 64px; */
+}
+
+.publicButton{
+	font-size: 12px;
+	border-ridus: 5px;
+	line-height: 12px;
+	height: 22px;
+	/* width: 64px; */
+}
+
+/* start japanese */
+.input-ime-mode-active{
+	ime-mode:active;
+}
+
+/* start english number */
+.input-ime-mode-inactive{
+	ime-mode:inactive;
+}
+
+/* start english number,but can not change */
+.input-ime-mode-disabled{
+	ime-mode:disabled;
+}
+
+.inputTolabel{
+	border:none;
+}
+.inputError{
+	color : red;
+}
+td{
+	word-wrap: break-word;
+    word-break: break-all;
+}
+.shouldHiddenInput{
+	display:none;
+}
