@@ -10,11 +10,9 @@
       <http-only>true</http-only>
     </cookie-config>
   </session-config>
-  
   <welcome-file-list>
     <welcome-file>index.htm</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <servlet-name>spring-dispatcher</servlet-name>
     <servlet-class>
@@ -22,25 +20,21 @@
 		</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/classes/spring-context.xml</param-value>
+      <param-value>/WEB-INF/classes/spring-mvc.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>spring-dispatcher</servlet-name>
     <url-pattern>*.htm</url-pattern>
   </servlet-mapping>
-  
-<!--   <context-param>
+  <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/classes/spriång-context.xml</param-value>
-  </context-param> -->
-  
+    <param-value>/WEB-INF/classes/spring-context.xml</param-value>
+  </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-  
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -69,5 +63,4 @@
     <!-- <location>/pages/error/500.html</location> -->
     <location>/testError.htm</location>
   </error-page>
-  
 </web-app>
