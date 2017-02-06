@@ -1,7 +1,12 @@
 /**
- * 
+ * 所有页面初始化时都要执行的函数
  */
-
+$(document).ready(function(){
+	//禁用所有的input的按回车就提交功能
+	$("input").attr("onkeydown","if(event.keyCode==13){return false;}");
+	//ajax预处理
+	$.ajaxPretrate();
+})
 /**
  * ajax预处理
  */
