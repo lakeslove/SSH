@@ -209,8 +209,8 @@
 	<!-- springFrome initiate check start -->
 	<bean class="com.lx.util.CheckConfigs">
 		<!-- <property name="jndiName" value="${db.jndiname}" /> -->
-		<property name="searchServiceUserDao">
-			<bean class="tss.kz.daos.hibernate.publics.SearchServiceUserDaoImpl" /> 
+		<property name="userDao">
+			<bean class="com.lx.daos.hibernate.UserDaoImpl" /> 
 		</property>
 	</bean>
 	<!-- initiate check end -->

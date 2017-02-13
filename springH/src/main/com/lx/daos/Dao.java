@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
@@ -205,5 +206,6 @@ public interface Dao<T, ID extends Serializable> {
 	public Integer falseDeleteByIds(ID[] ids) throws DataAccessException;
 	public List<T> loadByIdAndNotDeleteFlg(ID[] ids) throws DataAccessException;
 	public T loadByIdAndNotDeleteFlg(ID id) throws DataAccessException;
+	public Session getSession();
 	// TODO HQL END
 }
