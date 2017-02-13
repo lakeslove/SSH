@@ -208,7 +208,7 @@
 	
 	<!-- springFrome initiate check start -->
 	<bean class="com.lx.util.CheckConfigs">
-		<!-- <property name="jndiName" value="${db.jndiname}" /> -->
+		<property name="dbUrl" value="${db.url}" />
 		<property name="userDao">
 			<bean class="com.lx.daos.hibernate.UserDaoImpl" /> 
 		</property>
