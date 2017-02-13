@@ -25,7 +25,7 @@ import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.lx.daos.Dao;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport implements Dao<T, ID> {
+public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport implements Dao<T, ID> {
 	private static final Logger log = LogManager.getLogger(AbstractDao.class); 
 	
 //	public abstract Class<T> getModelClass() throws DataAccessException;
