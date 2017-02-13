@@ -17,25 +17,25 @@ public abstract class Abstract implements Serializable {
 	private static final long serialVersionUID = -7631564826501648289L;
 
 	/**
-	 * 作成者ID
+	 * 
 	 */
 	@Column(name = "create_user_id")
 	protected long createUserId;
 	
 	/**
-	 * 作成日時
+	 * 
 	 */
 	@Column(name = "create_date", updatable = false)
 	protected Timestamp createDate;
 	
 	/**
-	 * 更新者ID
+	 * 
 	 */
 	@Column(name = "update_user_id")
 	protected long updateUserId;
 
 	/**
-	 * 更新日時
+	 * 
 	 */
 	@Column(name = "update_date")
 	protected Timestamp updateDate;
