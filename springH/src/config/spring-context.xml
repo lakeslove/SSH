@@ -206,6 +206,7 @@
 	</bean>
 	<!-- velocityEngine end -->
 	
+	<!-- IOC demo start-->
 	<!-- springFrome initiate check start -->
 	<bean class="com.lx.util.CheckConfigs">
 		<property name="dbUrl" value="${db.url}" />
@@ -214,5 +215,11 @@
 		</property>
 	</bean>
 	<!-- initiate check end -->
+	
+	<!-- 在过滤器中注入service start-->
+	<bean id="userService" class="com.lx.services.hibernate.UserServiceImpl"></bean>
+	<!-- 在过滤器中注入service end-->
+	
+	<!-- IOC demo end-->
 	
 </beans>

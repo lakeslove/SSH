@@ -1,17 +1,26 @@
 package com.lx.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import com.lx.services.UserService;
+
 
 /**
  * Servlet Filter implementation class LoginFilter
  */
 public class LoginFilter implements Filter {
+	
+	private String indexPath;
+	private UserService userService;
 
     /**
      * Default constructor. 
@@ -41,8 +50,12 @@ public class LoginFilter implements Filter {
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
-	public void init(FilterConfig fConfig) throws ServletException {
+	public void init(FilterConfig config) throws ServletException {
 		// TODO Auto-generated method stub
+		indexPath = config.getInitParameter("indexPath");
+		ServletContext sc = config.getServletContext();
+		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(sc);
+		userService = (UserService)ctx.getBean("userService");
 	}
 
 }
