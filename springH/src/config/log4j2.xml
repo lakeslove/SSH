@@ -36,6 +36,7 @@
 		-->
 		<!-- level = OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL -->
 		<Root level="info">
+			<AppenderRef ref="Console" />
 			<AppenderRef ref="running-log" />
 		</Root>
 	</Loggers>
