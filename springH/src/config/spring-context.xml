@@ -230,11 +230,13 @@
 	<bean id="appendLogsByAOP" class="com.lx.utils.AppendLogsByAOP"/>
 	<!-- 切入点 -->
 	<aop:config>
+		<aop:pointcut id="afterMethodPoint" expression="execution(* com.lx.controllers.publics.*Controller.*(..))"/>
 		<aop:aspect id = "appendLogs" ref="appendLogsByAOP">
 			<aop:before method="logOutputBeforeMethod" pointcut="execution(* com.lx.controllers.publics.*Controller.*(..))"/>
-			<aop:after-returning method="logOutputAfterReturn" pointcut="execution(* com.lx.controllers.publics.*Controller.*(..))"/>
 			<aop:after-throwing method="logOutputAfterThrows" pointcut="execution(* com.lx.controllers.publics.*Controller.*(..))"/>
-			<aop:after method="logOutputAfterMethod" pointcut="execution(* com.lx.controllers.publics.*Controller.*(..))"/>
+			<!-- 可以用 pointcut-ref来指代相同的pointcut-->
+			<aop:after-returning method="logOutputAfterReturn" pointcut-ref="afterMethodPoint"/>
+			<aop:after method="logOutputAfterMethod" pointcut-ref="afterMethodPoint"/>
 		</aop:aspect>
 	</aop:config>
 	<!-- AOP demo end  -->
