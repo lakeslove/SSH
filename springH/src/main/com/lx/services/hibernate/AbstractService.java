@@ -54,12 +54,12 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public T findById(ID id) throws ServiceException {
-		return getDao().load(id);
+		return getDao().get(id);
 	}
 
 	@Transactional(rollbackFor=ServiceException.class)
 	public void deleteById(ID id) throws ServiceException {
-		T t = getDao().load(id);
+		T t = getDao().get(id);
 		getDao().delete(t);
 	}
 
@@ -83,7 +83,7 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
-	public List<T> loadByProperty(Map map) throws ServiceException {
+	public List<T> loadByProperty(Map<String, Object> map) throws ServiceException {
 		return getDao().getListByProperty(null, map);
 	}
 	
@@ -101,17 +101,17 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public List<T> loadAll() throws ServiceException {
-		return getDao().loadAll();
+		return getDao().findAll();
 	}
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public List<T> loadAllOrderBy(String order) throws ServiceException {
-		return getDao().loadAllOrderBy(order);
+		return getDao().findAllOrderBy(order);
 	}
 
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public List<T> loadAllDescOrderBy(String order) throws ServiceException {
-		return getDao().loadAllDescOrderBy(order);
+		return getDao().findAllDescOrderBy(order);
 	}
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
@@ -121,7 +121,7 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public int getCount() throws ServiceException {
-		return getDao().getCount();
+		return getDao().getUniqueCount();
 	}
 	
 	// TODO HQL START
@@ -134,28 +134,11 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	}
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
-	public List<T> getAllByCondition(String property) throws ServiceException{
-		return getDao().getAllByCondition(property);
-	}
-	
-	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public List<T> findTopByCriteria(final DetachedCriteria detachedCriteria, final int top, final Order[] orders)
 			throws ServiceException{
 		return getDao().findTopByCriteria(detachedCriteria, top, orders);
 	}
 	
-	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
-	public List<T> getOffsetLimitOrderListByPropertys(String property1, Object value1,String property2,
-			Object value2, String orderProperty,String order, 
-			int limit, int offset) throws ServiceException{
-		return getDao().getOffsetLimitOrderListByPropertys(property1, value1,property2,
-				value2, orderProperty,order, limit, offset);
-	}
-	
-	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
-	public long getCount(String property1, Object value1,String property2, Object value2) throws ServiceException{
-		return getDao().getCount(property1, value1,property2, value2);
-	}
 	
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public int getCountByCriteria(final DetachedCriteria detachedCriteria) throws ServiceException{
@@ -175,14 +158,6 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
 	public List<T> getOffsetLimitOrderList(String orderProperty,String order, int limit, int offset) throws ServiceException{
 		return getDao().getOffsetLimitOrderList(orderProperty,order, limit, offset);
-	}
-	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
-	public List<T> loadByIdAndNotDeleteFlg(ID[] ids) throws ServiceException{
-		return getDao().loadByIdAndNotDeleteFlg(ids);
-	}
-	@Transactional(readOnly=true, rollbackFor=ServiceException.class)
-	public T loadByIdAndNotDeleteFlg(ID id) throws ServiceException{
-		return getDao().loadByIdAndNotDeleteFlg(id);
 	}
 	
 	// TODO HQL END

@@ -1,14 +1,11 @@
 package com.lx.daos.hibernate;
 
-import com.lx.daos.UserDao;
-import com.lx.models.User;
-
-import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+
+import com.lx.daos.UserDao;
+import com.lx.models.User;
 
 @Repository
 public class UserDaoImpl extends AbstractDao<User, Long> implements UserDao {

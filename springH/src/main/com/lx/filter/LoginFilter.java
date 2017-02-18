@@ -46,6 +46,8 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		String uri = req.getRequestURI();
+		System.out.println(res);
+		System.out.println(uri);
 		// TODO Auto-generated method stub
 		// place your code here
 		// pass the request along the filter chain

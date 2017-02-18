@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -19,193 +20,120 @@ import org.springframework.dao.DataAccessException;
  */
 public interface Dao<T, ID extends Serializable> {
 	
-	/**
-	 * 
-	 * @return
-	 * @throws DataAccessException
-	 */
-	Class<T> getModelClass() throws DataAccessException;
+	public Session openSession();
 	
+	public Session getSession();
 	
-	/**
-	 * @param id
-	 * @return
-	 * @throws DataAccessException
-	 */
-	T load(ID id) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param ids
-	 * @return
-	 * @throws DataAccessException
-	 */
-	List<T> loadByIds(ID[] ids) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param ids
-	 * @param createUserId
-	 * @return
-	 * @throws DataAccessException
-	 */
-	int deleteByIds(ID[] ids, Long createUserId) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param ids
-	 * @throws DataAccessException
-	 */
-	Integer deleteByIds(ID[] ids) throws DataAccessException;
-
-	/**
-	 * 
-	 * @return
-	 * @throws DBDaoException
-	 */
-	List<T> loadAll() throws DataAccessException;
-
-	/**
-	 * 
-	 * @param order
-	 * @return
-	 * @throws DataAccessException
-	 */
-	List<T> loadAllOrderBy(String order) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param order
-	 * @return
-	 * @throws DataAccessException
-	 */
-	List<T> loadAllDescOrderBy(String order) throws DataAccessException;
-
-	/**
-	 * insert a record
-	 * 
-	 * @param t
-	 * @throws DBDaoException
-	 */
-	ID save(T t) throws DataAccessException;
-
-	/**
-	 * update a record
-	 * 
-	 * @param t
-	 * @throws DataAccessException
-	 */
-	void update(T t) throws DataAccessException;
-
-	/**
-	 * delete a record
-	 * 
-	 * @param t
-	 * @throws DBDaoException
-	 */
-	void delete(T t) throws DataAccessException;
-
-	/**
-	 * flush
-	 * 
-	 * @throws DBDaoException
-	 */
-	void flush() throws DataAccessException;
-
-	/**
-	 * clear
-	 * 
-	 * @throws DataAccessException
-	 */
-	void clear() throws DataAccessException;
-
-	/**
-	 * 
-	 * @param property
-	 * @return
-	 */
-	Object max(String property) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param t
-	 * @throws DataAccessException
-	 */
-	void evict(T t) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param t
-	 * @throws DataAccessException
-	 */
-	void merge(T t) throws DataAccessException;
-
-	/**
-	 * 
-	 * @throws DataAccessException
-	 */
-	void deleteAll() throws DataAccessException;
-
-	/**
-	 * 
-	 * 
-	 * @param entities
-	 * @throws DataAccessException
-	 */
-	void deleteAll(Collection<T> entities) throws DataAccessException;
-
-	/**
-	 * 
-	 * @param collection
-	 * @throws DataAccessException
-	 */
+	//利用反射来获取调用此方法的类
 	
-	// TODO HQL START
+	public Class<T> getModelClass() throws DataAccessException;
 	
-	// void saveOrUpdateAll(Collection<T> entities) throws DataAccessException;
-
+	public void flush() throws DataAccessException;
 	
-	/**
-	 * @return
-	 */
-	int getCount();
-
+	public void clear() throws DataAccessException;
 	
-	/**
-	 * @param property
-	 * @param value
-	 * @return
-	 */
-	List<T> getListByProperty(String property, Object value);
-
-	long getLastInsertId() throws DataAccessException;
-
-	List<T> findTopByCriteria(final DetachedCriteria detachedCriteria, final int top, final Order[] orders)
-			throws DataAccessException;
-
-	List<T> getOffsetLimitOrderListByProperty(String property, Object value, String orderProperty, String order,
-			int limit, int offset) throws DataAccessException;
+	//获取数据的方法
 	
-	List<T> getAllByCondition(String property) throws DataAccessException;
+	public T get(ID id) throws DataAccessException;
 	
-	List<T> getOffsetLimitOrderListByPropertys(String property1, Object value1,String property2,
-			Object value2, String orderProperty,String order, 
-			int limit, int offset) throws DataAccessException;
+	public List<T> find(String sql) throws DataAccessException;
 	
-	long getCount(String property1, Object value1,String property2, Object value2) throws DataAccessException;	
-	int getCountByCriteria(final DetachedCriteria detachedCriteria) throws DataAccessException;
-	public long getCount(String property1, Object value1) throws DataAccessException;
-	public long deleteByProperty(String property, Object value) throws DataAccessException;
-	public void deleteByPropertys(String propertyName,ID[] propertys) throws DataAccessException;
-	public void deleteByIds(String propertyName,ID[] ids) throws DataAccessException;
+	public List<T> findByIds(ID[] ids) throws DataAccessException;
+	
+	public List<T> findByInValues(String propertyName,Object[] values) throws DataAccessException;
+	
+	public List<T> findAll() throws DataAccessException;
+	
+	public List<T> findAllOrderBy(String order) throws DataAccessException;
+	
+	public List<T> findAllDescOrderBy(String order) throws DataAccessException;
+	
+	public List<T> getListByProperty(String property, Object value) throws DataAccessException;
+	
+	public List<T> getOrderListByProperty(String property, Object value,String orderProperty,String order) throws DataAccessException;
+	
 	public List<T> getOffsetLimitOrderList(String orderProperty,String order, int limit, int offset) throws DataAccessException;
-	public List<T> getOrderListByPropertys(String property1, Object value1,String property2, Object value2, String orderProperty,String order) throws DataAccessException;
-	public List<T> getListByProperty(String property, Object value,String orderProperty,String order) throws DataAccessException;
+	
+	public List<T> getOffsetLimitOrderListByProperty(String property, Object value,String orderProperty,String order, int limit, int offset) throws DataAccessException;
+	
+	public List<T> getAllByHql(String hql,Object[] paramArray) throws DataAccessException;
+	
+	
+	public List<T> findTopByCriteria(final DetachedCriteria detachedCriteria, final int top, final Order[] orders)
+			throws DataAccessException;
+	
+	public List<T> findAllByCriteria(final DetachedCriteria detachedCriteria) throws DataAccessException;
+
+	//获取数量
+	public long getCount() throws DataAccessException;
+	
+	public long getCount(String property, Object value) throws DataAccessException;
+	
+	public long getCountByPropertys(String propertyName,Object[] propertys) throws DataAccessException;
+	
+	public long getCountByHql(String hql) throws DataAccessException;
+	
+	public long getCountBySql(String sql) throws DataAccessException;
+	
+	public int getCountByCriteria(final DetachedCriteria detachedCriteria) throws DataAccessException;
+	
+	public int getUniqueCount();
+	
+	//删除数据的方法
+	
+	public void delete(T t) throws DataAccessException;
+	
+	public Integer deleteByIds(ID[] ids) throws DataAccessException;
+	
+	public long deleteByProperty(String property, Object value) throws DataAccessException;
+	
+	public void deleteByInValues(String propertyName,Object[] values) throws DataAccessException;
+	
+	public void deleteAll() throws DataAccessException;
+	
+	public void deleteAll(Collection<T> entities) throws DataAccessException;
+
+	//执行数据保存的方法
+	
+	public ID save(T t) throws DataAccessException;
+	
+	// 执行数据更新的方法
+	
+	public void update(T t) throws DataAccessException;
+	
+	public Integer bulkUpdate(String sql);
+	
+	public void merge(T t) throws DataAccessException;
+	
+	public void evict(T t) throws DataAccessException;
+	
+	public Object max(String property) throws DataAccessException;
+	
+	public long getLastInsertId() throws DataAccessException;
+	
+	//getSomething by map
+	
+	public Long getCountByFields(Map<String,Object> FieldsMap,Boolean like) throws DataAccessException;
+	
+	public List<T> getOffsetLimitOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order, int limit, int offset,Boolean like) throws DataAccessException;
+	
+	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order,Boolean like) throws DataAccessException;
+	
+	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,Boolean like) throws DataAccessException;
+	
+	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like,Boolean order);
+	
+	public String getStringFromMap(Map<String,Object> FieldsMap,Boolean like);
+	
+	public Query getQueryFromMapAndHql(Map<String,Object> FieldsMap,String hql);
+	
+	public Query getQueryFromMapAndHql(Map<String,String> FieldsMap,Query query);
 	
 	public int executeUpdateBySql(String updateSql, Object[] paramArray);
-	public Integer falseDeleteByIds(ID[] ids) throws DataAccessException;
-	public List<T> loadByIdAndNotDeleteFlg(ID[] ids) throws DataAccessException;
-	public T loadByIdAndNotDeleteFlg(ID id) throws DataAccessException;
-	public Session getSession();
-	// TODO HQL END
+	
+	public Query getQueryByHqlAndObjects(String hql,Object[] paramArray);
+	
+	public Query getQueryBySqlAndObjects(String sql,Object[] paramArray);
+	
+	public void setQueryByParamArray(Query query,Object[] paramArray);
 }

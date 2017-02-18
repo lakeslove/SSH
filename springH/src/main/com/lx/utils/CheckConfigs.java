@@ -12,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import com.lx.daos.UserDao;
-import com.lx.daos.hibernate.UserDaoImpl;
 
 public class CheckConfigs implements ApplicationContextAware {
 	private static final Logger log = LogManager.getLogger(CheckConfigs.class);
@@ -52,7 +51,7 @@ public class CheckConfigs implements ApplicationContextAware {
 	}
 	 
 	private void checkDataSoucesContects(){
-		try(Session session = userDao.getSession())
+		try(Session session = userDao.openSession())
 		{
 			Transaction t = session.beginTransaction();
 			t.commit();

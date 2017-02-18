@@ -92,22 +92,10 @@ public interface Service<T, ID extends Serializable> {
 	// TODO HQL START
 	List<T> getOffsetLimitOrderListByProperty(String property, Object value, String orderProperty, String order,
 			int limit, int offset) throws ServiceException;
-	
-	List<T> getAllByCondition(String property) throws ServiceException;
-	
 	List<T> findTopByCriteria(final DetachedCriteria detachedCriteria, final int top, final Order[] orders)
 			throws ServiceException;
-	
-	List<T> getOffsetLimitOrderListByPropertys(String property1, Object value1,String property2,
-			Object value2, String orderProperty,String order, 
-			int limit, int offset) throws ServiceException;
-	
-	long getCount(String property1, Object value1,String property2, Object value2) throws ServiceException;
-	
 	int getCountByCriteria(final DetachedCriteria detachedCriteria) throws ServiceException;
 	Object max(String property) throws ServiceException;
 	List<T> getOffsetLimitOrderList(String orderProperty,String order, int limit, int offset) throws ServiceException;
-	List<T> loadByIdAndNotDeleteFlg(ID[] ids) throws ServiceException;
-	T loadByIdAndNotDeleteFlg(ID id) throws ServiceException;
 	// TODO HQL END
 }

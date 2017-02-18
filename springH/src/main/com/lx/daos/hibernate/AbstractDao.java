@@ -2,10 +2,10 @@ package com.lx.daos.hibernate;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.lang.reflect.Type;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,12 +29,19 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 	private static final Logger log = LogManager.getLogger(AbstractDao.class); 
 	
 //	public abstract Class<T> getModelClass() throws DataAccessException;
-//	
+	
+	@Override
 	public Session openSession(){
 		return this.getSessionFactory().openSession();
 	}
 	
+	@Override
+	public Session getSession(){
+		return this.getSessionFactory().getCurrentSession();
+	}
+	
 	//利用反射来获取调用此方法的类
+	@Override
 	public Class<T> getModelClass() throws DataAccessException {
 		Class<?> clz = this.getClass();
 		// 得到子类对象的泛型父类类型（也就是BaseDaoImpl<T>）
@@ -44,42 +51,52 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		Class<T> entityClass = (Class<T>) types[0];
 		return entityClass;
 	}
+	@Override
+	public void flush() throws DataAccessException {
+		getHibernateTemplate().flush();
+	}
+	@Override
+	public void clear() throws DataAccessException {
+		getHibernateTemplate().clear();
+	}
 	
+	//获取数据的方法
+	@Override
 	public T get(ID id) throws DataAccessException {
 		return (T) getHibernateTemplate().get(getModelClass(), id);
 		// return (T)getHibernateTemplate().load(getModelClass(), id);
 	}
-
+	@Override
 	public List<T> find(String sql) throws DataAccessException {
 		return (List<T>) getHibernateTemplate().find(sql);
 	}
-	
+	@Override
 	public List<T> findByIds(ID[] ids) throws DataAccessException {
 		return (List<T>) getHibernateTemplate()
 				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj.id in " + this.getString(ids));
 	}
-	
-	public List<T> findByPropertys(String propertyName,ID[] propertys) throws DataAccessException {
+	@Override
+	public List<T> findByInValues(String propertyName,Object[] values) throws DataAccessException {
 		return (List<T>) getHibernateTemplate()
-				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(propertys));
+				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(values));
 	}
-	
+	@Override
 	public List<T> findAll() throws DataAccessException {
 		return (List<T>) getHibernateTemplate().find("FROM " + getModelClass().getSimpleName() + " ORDER BY id");
 	}
-
+	@Override
 	public List<T> findAllOrderBy(String order) throws DataAccessException {
 		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
 		cri.addOrder(Order.asc(order));
 		return (List<T>) cri.list();
 	}
-
+	@Override
 	public List<T> findAllDescOrderBy(String order) throws DataAccessException {
 		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
 		cri.addOrder(Order.desc(order));
 		return (List<T>) cri.list();
 	}
-
+	
 	private String getString(Object[] ids) {
 		StringBuffer sIds = new StringBuffer();
 		sIds.append("(");
@@ -92,86 +109,45 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		sIds.append(")");
 		return sIds.toString();
 	}
-	
-	public void delete(T t) throws DataAccessException {
-		if (t != null) {
-			getHibernateTemplate().delete(t);
-			getHibernateTemplate().flush();
-			getSessionFactory().getCurrentSession().flush();
-			getSessionFactory().getCurrentSession().clear();
-			// getHibernateTemplate().getSessionFactory().evictQueries();
-		}
-	} 
-	
-	public Integer bulkUpdate(String sql){
-		return getHibernateTemplate().bulkUpdate(sql);
-	}
-	
-	public Integer deleteByIds(ID[] ids) throws DataAccessException {
-		return getHibernateTemplate().bulkUpdate(
-				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj.id in " + this.getString(ids));
-	}
-	
-	public void deleteByPropertys(String propertyName,Object[] propertys) throws DataAccessException {
-		getHibernateTemplate().bulkUpdate(
-				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(propertys));
-	}
-	
-	public void deleteAll() throws DataAccessException {
-		getHibernateTemplate().bulkUpdate("delete " + getModelClass().getSimpleName());
-	}
-
-	public void deleteAll(Collection<T> entities) throws DataAccessException {
-		if (entities != null) {
-			getHibernateTemplate().deleteAll(entities);
-		}
-	}
-	
-	public long getCountByPropertys(String propertyName,Object[] propertys) throws DataAccessException {
-		String hql = "select count(*) FROM " + getModelClass().getSimpleName() + " WHERE "+propertyName+" in " + this.getString(propertys);
+	@Override
+	public List<T> getListByProperty(String property, Object value) throws DataAccessException {
+		String hql = String.format("from %s where %s=:val ", getModelClass().getSimpleName(), property);
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		return (long)query.list().get(0);
+		query.setParameter("val", value);
+		return query.list();
 	}
-
-	public void flush() throws DataAccessException {
-		getHibernateTemplate().flush();
+	@Override
+	public List<T> getOrderListByProperty(String property, Object value,String orderProperty,String order) throws DataAccessException {
+		String hql = String.format("from %s where %s=:val order by %s %s", getModelClass().getSimpleName(), property,orderProperty,order);
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		query.setParameter("val", value);
+		return query.list();
 	}
-
-	public void clear() throws DataAccessException {
-		getHibernateTemplate().clear();
+	@Override
+	public List<T> getOffsetLimitOrderList(String orderProperty,String order, int limit, int offset) throws DataAccessException {
+		String hql = String.format("from %s order by %s %s", getModelClass().getSimpleName(),orderProperty,order);
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		return query.list();
 	}
-
-	public ID save(T t) throws DataAccessException {
-		if (t != null) {
-			return (ID) getHibernateTemplate().save(t);
-		}
-		return null;
+	@Override
+	public List<T> getOffsetLimitOrderListByProperty(String property, Object value,String orderProperty,String order, int limit, int offset) throws DataAccessException {
+		String hql = String.format("from %s where %s = :val order by %s %s", getModelClass().getSimpleName(), property,orderProperty,order);
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		query.setParameter("val", value);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		return query.list();
 	}
-
-	public void update(T t) throws DataAccessException {
-		if (t != null) {
-			getHibernateTemplate().update(t);
-		}
-
+	@Override
+	public List<T> getAllByHql(String hql,Object[] paramArray) throws DataAccessException {
+		Query query = getQueryBySqlAndObjects(hql,paramArray);
+		
+		return query.list();
 	}
-
-	public void merge(T t) throws DataAccessException {
-		if (t != null) {
-			getHibernateTemplate().merge(t);
-		}
-	}
-
-	public Object max(String property) throws DataAccessException {
-		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
-		cri.setProjection(Projections.max(property));
-		return cri.uniqueResult();
-	}
-
-	public void evict(T t) throws DataAccessException {
-		if (t != null)
-			getHibernateTemplate().evict(t);
-	}
-
+	
+	@Override
 	public List<T> findTopByCriteria(final DetachedCriteria detachedCriteria, final int top, final Order[] orders)
 			throws DataAccessException {
 		return (List<T>) getHibernateTemplate().execute(new HibernateCallback() {
@@ -188,7 +164,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 			}
 		});
 	}
-
+	@Override
 	@SuppressWarnings("rawtypes")
 	public List<T> findAllByCriteria(final DetachedCriteria detachedCriteria) throws DataAccessException {
 		return (List) getHibernateTemplate().execute(new HibernateCallback() {
@@ -199,6 +175,39 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		});
 	}
 
+	//获取数量
+	@Override
+	public long getCount() throws DataAccessException {
+
+		String hql = String.format("select count(*) from %s", getModelClass().getSimpleName());
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		return (long)query.list().get(0);
+	}
+	@Override
+	public long getCount(String property, Object value) throws DataAccessException {
+
+		String hql = String.format("select count(*) from %s where %s = :val1", getModelClass().getSimpleName(), property);
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		query.setParameter("val1", value);
+		return (long)query.list().get(0);
+	}
+	@Override
+	public long getCountByPropertys(String propertyName,Object[] propertys) throws DataAccessException {
+		String hql = "select count(*) FROM " + getModelClass().getSimpleName() + " WHERE "+propertyName+" in " + this.getString(propertys);
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		return (long)query.list().get(0);
+	}
+	@Override
+	public long getCountByHql(String hql) throws DataAccessException {
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		return (long)query.list().get(0);
+	}
+	@Override
+	public long getCountBySql(String sql) throws DataAccessException {
+		Query query = this.getSessionFactory().getCurrentSession().createSQLQuery(sql);
+		return (long)query.list().get(0);
+	}
+	@Override
 	public int getCountByCriteria(final DetachedCriteria detachedCriteria) throws DataAccessException {
 		Integer count = (Integer) getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException {
@@ -208,7 +217,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		});
 		return count.intValue();
 	}
-	
+	@Override
 	public int getUniqueCount() {
 		Object count = getSessionFactory().getCurrentSession().createCriteria(getModelClass())
 				.setProjection(Projections.rowCount()).uniqueResult();
@@ -217,133 +226,94 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		}
 		return Integer.valueOf(count.toString());
 	}
-
-	public List<T> getListByProperty(String property, Object value) throws DataAccessException {
-
-		String hql = String.format("from %s where %s=:val ", getModelClass().getSimpleName(), property);
-
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val", value);
-		return query.list();
-	}
 	
-	public List<T> getListByProperty(String property, Object value,String orderProperty,String order) throws DataAccessException {
-
-		String hql = String.format("from %s where %s=:val order by %s %s", getModelClass().getSimpleName(), property,orderProperty,order);
-
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val", value);
-		return query.list();
+	//删除数据的方法
+	@Override
+	public void delete(T t) throws DataAccessException {
+		if (t != null) {
+			getHibernateTemplate().delete(t);
+			getHibernateTemplate().flush();
+			getSessionFactory().getCurrentSession().flush();
+			getSessionFactory().getCurrentSession().clear();
+			// getHibernateTemplate().getSessionFactory().evictQueries();
+		}
+	} 
+	@Override
+	public Integer deleteByIds(ID[] ids) throws DataAccessException {
+		return getHibernateTemplate().bulkUpdate(
+				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj.id in " + this.getString(ids));
 	}
-	
+	@Override
 	public long deleteByProperty(String property, Object value) throws DataAccessException {
-
 		String hql = String.format("delete %s as u where u.%s = :val ", getModelClass().getSimpleName(), property);
-
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
 		query.setParameter("val", value);
-		
 		long count = query.executeUpdate();
-//		getHibernateTemplate().flush();
-//		getSessionFactory().getCurrentSession().flush();
-//		getSessionFactory().getCurrentSession().clear();
 		return count;
 	}
-	
-	public List<T> getAdminUserSupplierList() throws DataAccessException {
-		String hql = String.format("select u from %s u ,Supplier s where u.supplier = s.id", getModelClass().getSimpleName());
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		return (List<T>)query.list();
+	@Override
+	public void deleteByInValues(String propertyName,Object[] values) throws DataAccessException {
+		getHibernateTemplate().bulkUpdate(
+				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(values));
+	}
+	@Override
+	public void deleteAll() throws DataAccessException {
+		getHibernateTemplate().bulkUpdate("delete " + getModelClass().getSimpleName());
+	}
+	@Override
+	public void deleteAll(Collection<T> entities) throws DataAccessException {
+		if (entities != null) {
+			getHibernateTemplate().deleteAll(entities);
+		}
+	}
+
+	//执行数据保存的方法
+	@Override
+	public ID save(T t) throws DataAccessException {
+		if (t != null) {
+			return (ID) getHibernateTemplate().save(t);
+		}
+		return null;
 	}
 	
-	 // TODO HQL START
-	
-	public long getCount(String property1, Object value1,String property2, Object value2) throws DataAccessException {
+	// 执行数据更新的方法
+	@Override
+	public void update(T t) throws DataAccessException {
+		if (t != null) {
+			getHibernateTemplate().update(t);
+		}
 
-		String hql = String.format("select count(*) from %s where %s like :val1 and %s like :val2 ", getModelClass().getSimpleName(), property1,property2);
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val1", value1);
-		query.setParameter("val2", value2);
-		return (long)query.list().get(0);
 	}
-	
-	public long getCount(String property1, Object value1) throws DataAccessException {
-
-		String hql = String.format("select count(*) from %s where %s = :val1", getModelClass().getSimpleName(), property1);
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val1", value1);
-		return (long)query.list().get(0);
+	@Override
+	public Integer bulkUpdate(String sql){
+		return getHibernateTemplate().bulkUpdate(sql);
 	}
-	
-	public List<T> getOffsetLimitOrderListByPropertys(String property1, Object value1,String property2, Object value2, String orderProperty,String order, int limit, int offset) throws DataAccessException {
-
-		String hql = String.format("from %s where %s like :val1 and %s like :val2 order by %s %s", getModelClass().getSimpleName(), property1,property2,orderProperty,order);
-
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val1", value1);
-		query.setParameter("val2", value2);
-		query.setFirstResult(offset);
-		query.setMaxResults(limit);
-		return query.list();
+	@Override
+	public void merge(T t) throws DataAccessException {
+		if (t != null) {
+			getHibernateTemplate().merge(t);
+		}
 	}
-	
-	public List<T> getOrderListByPropertys(String property1, Object value1,String property2, Object value2, String orderProperty,String order) throws DataAccessException {
-
-		String hql = String.format("from %s where %s like :val1 and %s like :val2 order by %s %s", getModelClass().getSimpleName(), property1,property2,orderProperty,order);
-
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val1", value1);
-		query.setParameter("val2", value2);
-		return query.list();
+	@Override
+	public void evict(T t) throws DataAccessException {
+		if (t != null)
+			getHibernateTemplate().evict(t);
 	}
-	
-	public List<T> getOffsetLimitOrderList(String orderProperty,String order, int limit, int offset) throws DataAccessException {
-
-		String hql = String.format("from %s order by %s %s", getModelClass().getSimpleName(),orderProperty,order);
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setFirstResult(offset);
-		query.setMaxResults(limit);
-		return query.list();
+	@Override
+	public Object max(String property) throws DataAccessException {
+		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
+		cri.setProjection(Projections.max(property));
+		return cri.uniqueResult();
 	}
-	
-	public List<T> getOffsetLimitOrderListByProperty(String property, Object value,String orderProperty,String order, int limit, int offset) throws DataAccessException {
-		String hql = String.format("from %s where %s = :val order by %s %s", getModelClass().getSimpleName(), property,orderProperty,order);
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		query.setParameter("val", value);
-		query.setFirstResult(offset);
-		query.setMaxResults(limit);
-		return query.list();
-	}
-	
-
-	public List<T> getAllByCondition(String property) throws DataAccessException {
-
-		String hql = String.format("from %s where %s", getModelClass().getSimpleName(), property);
-
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-
-		return query.list();
-	}
-	
-	
-	 // TODO HQL END
-
+	@Override
 	public long getLastInsertId() throws DataAccessException {
-
 		String hql = String.format("select max(a.id) from %s a", getModelClass().getSimpleName());
-
 		long maxid = new Long((getSessionFactory().getCurrentSession().createQuery(hql).uniqueResult()).toString());
-
 		return maxid;
 	}
 	
-	
-	
-	
-	//TODO HQL START
-	
-	
-	//getCount by map
+	//getSomething by map
+	@Override
 	public Long getCountByFields(Map<String,Object> FieldsMap,Boolean like) throws DataAccessException {
 		String tmpSqlFromMap = getStringFromMap(FieldsMap,like);
 		String modelName = getModelClass().getSimpleName();
@@ -351,8 +321,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		Query query = getQueryFromMapAndHql(FieldsMap,hql);
 		return (Long)query.list().get(0);
 	}
-	//getSomething by map
-	
+	@Override
 	public List<T> getOffsetLimitOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order, int limit, int offset,Boolean like) throws DataAccessException {
 		Query query = getQueryFromMap(FieldsMap,like,true);
 		query.setParameter("orderProperty", orderProperty);
@@ -361,19 +330,19 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		query.setMaxResults(limit);
 		return query.list();
 	}
-	
+	@Override
 	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order,Boolean like) throws DataAccessException {
 		Query query = getQueryFromMap(FieldsMap,like,true);
 		query.setParameter("orderProperty", orderProperty);
 		query.setParameter("order", order);
 		return query.list();
 	}
-	
+	@Override
 	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,Boolean like) throws DataAccessException {
 		Query query = getQueryFromMap(FieldsMap,like,false);
 		return query.list();
 	}
-	
+	@Override
 	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like,Boolean order){
 		String tmpSqlFromMap = getStringFromMap(FieldsMap,like);
 		String modelName = getModelClass().getSimpleName();
@@ -404,7 +373,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		String hql = sb.toString();
 		return hql;
 	}
-	
+	@Override
 	public Query getQueryFromMapAndHql(Map<String,Object> FieldsMap,String hql){
 		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
 		for(Map.Entry<String, Object> entry : FieldsMap.entrySet()){
@@ -412,6 +381,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		}
 		return query;
 	}
+	@Override
 	public Query getQueryFromMapAndHql(Map<String,String> FieldsMap,Query query){
 		for(Map.Entry<String, String> entry : FieldsMap.entrySet()){
 			query.setParameter(entry.getKey(), entry.getValue()+"");
@@ -419,7 +389,31 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		return query;
 	}
 	
-	//TODO HQL END
+	@Override
+	public int executeUpdateBySql(String updateSql, Object[] paramArray) {
+		Query query = getQueryBySqlAndObjects(updateSql,paramArray);
+		return query.executeUpdate();
+	}
+	
+	public Query getQueryByHqlAndObjects(String hql,Object[] paramArray){
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		setQueryByParamArray(query,paramArray);
+		return query;
+	}
+	
+	public Query getQueryBySqlAndObjects(String sql,Object[] paramArray){
+		Query query = this.getSessionFactory().getCurrentSession().createSQLQuery(sql);
+		setQueryByParamArray(query,paramArray);
+		return query;
+	}
+	
+	public void setQueryByParamArray(Query query,Object[] paramArray){
+		if (paramArray!=null) {
+			for (int i=0; i< paramArray.length; i++) {
+				query.setParameter(i, paramArray[i]);
+			}
+		}
+	}
 	
 	@Autowired  
     public void setSessionFactoryOverride(SessionFactory sessionFactory)   
@@ -427,14 +421,5 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
         super.setSessionFactory(sessionFactory);   
     }
 	
-	public int executeUpdateBySql(String updateSql, Object[] paramArray) {
-		Query query = this.getSessionFactory().getCurrentSession().createSQLQuery(updateSql);
-		if (paramArray!=null) {
-			for (int i=0; i< paramArray.length; i++) {
-				query.setParameter(i, paramArray[i]);
-			}
-		}
-		return query.executeUpdate();
-	}
 	
 }
