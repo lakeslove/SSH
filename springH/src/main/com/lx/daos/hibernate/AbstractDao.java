@@ -30,9 +30,14 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 	
 //	public abstract Class<T> getModelClass() throws DataAccessException;
 //	
+	public Session openSession(){
+		return this.getSessionFactory().openSession();
+	}
+	
+	//利用反射来获取调用此方法的类
 	public Class<T> getModelClass() throws DataAccessException {
 		Class<?> clz = this.getClass();
-		// 2得到子类对象的泛型父类类型（也就是BaseDaoImpl<T>）
+		// 得到子类对象的泛型父类类型（也就是BaseDaoImpl<T>）
 		ParameterizedType type = (ParameterizedType) clz.getGenericSuperclass();
 		System.out.println(type);
 		Type[] types = type.getActualTypeArguments();
@@ -40,120 +45,54 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		return entityClass;
 	}
 	
-	public T load(ID id) throws DataAccessException {
+	public T get(ID id) throws DataAccessException {
 		return (T) getHibernateTemplate().get(getModelClass(), id);
 		// return (T)getHibernateTemplate().load(getModelClass(), id);
 	}
 
-	public List<T> loadByIds(ID[] ids) throws DataAccessException {
+	public List<T> find(String sql) throws DataAccessException {
+		return (List<T>) getHibernateTemplate().find(sql);
+	}
+	
+	public List<T> findByIds(ID[] ids) throws DataAccessException {
 		return (List<T>) getHibernateTemplate()
 				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj.id in " + this.getString(ids));
 	}
-	public List<T> loadByIdAndNotDeleteFlg(ID[] ids) throws DataAccessException {
-		return (List<T>) getHibernateTemplate()
-				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj.deleteFlg != 1 and obj.id in " + this.getString(ids));
-	}
-	public T loadByIdAndNotDeleteFlg(ID id) throws DataAccessException {
-		List<T> tmp =(List<T>)getHibernateTemplate()
-				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj.deleteFlg != 1 and obj.id = " + id);
-		if(tmp.size()==0){
-			return null;
-		}
-		return tmp.get(0);
-	}
-
-	private String getString(ID[] ids) {
-		String sIds = "(";
-		for (int i = 0; i < ids.length; i++) {
-			ID id = ids[i];
-			sIds += id.toString();
-			if (i != ids.length - 1) {
-				sIds += ",";
-			}
-		}
-		sIds += ")";
-		return sIds;
-	}
 	
-	private String getString(Long[] ids) {
-		String sIds = "(";
-		for (int i = 0; i < ids.length; i++) {
-			Long id = ids[i];
-			sIds += id.toString();
-			if (i != ids.length - 1) {
-				sIds += ",";
-			}
-		}
-		sIds += ")";
-		return sIds;
-	}
-	
-	public Integer deleteByIds(ID[] ids) throws DataAccessException {
-		return getHibernateTemplate().bulkUpdate(
-				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj.id in " + this.getString(ids));
-	}
-	
-	public void deleteByIds(String propertyName,ID[] ids) throws DataAccessException {
-		getHibernateTemplate().bulkUpdate(
-				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(ids));
-	}
-	
-	public Integer falseDeleteByIds(ID[] ids) throws DataAccessException {
-		return getHibernateTemplate().bulkUpdate(
-				"update " + getModelClass().getSimpleName() + " obj set obj.deleteFlg = 1 WHERE obj.deleteFlg != 1 and obj.id in " + this.getString(ids));
-	}
-	
-	public void deleteByPropertys(String propertyName,ID[] propertys) throws DataAccessException {
-		getHibernateTemplate().bulkUpdate(
-				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(propertys));
-	}
-	
-	public long getCountByPropertys(String propertyName,ID[] propertys) throws DataAccessException {
-		String hql = "select count(*) FROM " + getModelClass().getSimpleName() + " WHERE "+propertyName+" in " + this.getString(propertys);
-		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
-		return (long)query.list().get(0);
-	}
-	
-	public List<T> loadByPropertys(String propertyName,ID[] propertys) throws DataAccessException {
+	public List<T> findByPropertys(String propertyName,ID[] propertys) throws DataAccessException {
 		return (List<T>) getHibernateTemplate()
 				.find("FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(propertys));
 	}
 	
-	private String getString(Object[] propertys) {
-		String sPropertys = "(";
-		for (int i = 0; i < propertys.length; i++) {
-			String property =(String)propertys[i];
-			sPropertys += property.toString();
-			if (i != propertys.length - 1) {
-				sPropertys += ",";
-			}
-		}
-		sPropertys += ")";
-		return sPropertys;
-	}
-
-
-	public int deleteByIds(ID[] ids, Long createUserId) throws DataAccessException {
-		return getHibernateTemplate().bulkUpdate("delete FROM " + getModelClass().getSimpleName()
-				+ " obj WHERE obj.createUserId=" + createUserId + " AND obj.id in " + this.getString(ids));
-	}
-
-	public List<T> loadAll() throws DataAccessException {
+	public List<T> findAll() throws DataAccessException {
 		return (List<T>) getHibernateTemplate().find("FROM " + getModelClass().getSimpleName() + " ORDER BY id");
 	}
 
-	public List<T> loadAllOrderBy(String order) throws DataAccessException {
+	public List<T> findAllOrderBy(String order) throws DataAccessException {
 		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
 		cri.addOrder(Order.asc(order));
 		return (List<T>) cri.list();
 	}
 
-	public List<T> loadAllDescOrderBy(String order) throws DataAccessException {
+	public List<T> findAllDescOrderBy(String order) throws DataAccessException {
 		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
 		cri.addOrder(Order.desc(order));
 		return (List<T>) cri.list();
 	}
 
+	private String getString(Object[] ids) {
+		StringBuffer sIds = new StringBuffer();
+		sIds.append("(");
+		for (int i = 0; i < ids.length; i++) {
+			sIds.append(String.valueOf(ids[i]));
+			if (i != ids.length - 1) {
+				sIds.append(",");
+			}
+		}
+		sIds.append(")");
+		return sIds.toString();
+	}
+	
 	public void delete(T t) throws DataAccessException {
 		if (t != null) {
 			getHibernateTemplate().delete(t);
@@ -162,6 +101,36 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 			getSessionFactory().getCurrentSession().clear();
 			// getHibernateTemplate().getSessionFactory().evictQueries();
 		}
+	} 
+	
+	public Integer bulkUpdate(String sql){
+		return getHibernateTemplate().bulkUpdate(sql);
+	}
+	
+	public Integer deleteByIds(ID[] ids) throws DataAccessException {
+		return getHibernateTemplate().bulkUpdate(
+				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj.id in " + this.getString(ids));
+	}
+	
+	public void deleteByPropertys(String propertyName,Object[] propertys) throws DataAccessException {
+		getHibernateTemplate().bulkUpdate(
+				"delete FROM " + getModelClass().getSimpleName() + " obj WHERE obj."+propertyName+" in " + this.getString(propertys));
+	}
+	
+	public void deleteAll() throws DataAccessException {
+		getHibernateTemplate().bulkUpdate("delete " + getModelClass().getSimpleName());
+	}
+
+	public void deleteAll(Collection<T> entities) throws DataAccessException {
+		if (entities != null) {
+			getHibernateTemplate().deleteAll(entities);
+		}
+	}
+	
+	public long getCountByPropertys(String propertyName,Object[] propertys) throws DataAccessException {
+		String hql = "select count(*) FROM " + getModelClass().getSimpleName() + " WHERE "+propertyName+" in " + this.getString(propertys);
+		Query query = this.getSessionFactory().getCurrentSession().createQuery(hql);
+		return (long)query.list().get(0);
 	}
 
 	public void flush() throws DataAccessException {
@@ -192,35 +161,16 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		}
 	}
 
-	
 	public Object max(String property) throws DataAccessException {
 		Criteria cri = getSessionFactory().getCurrentSession().createCriteria(getModelClass());
 		cri.setProjection(Projections.max(property));
-		;
 		return cri.uniqueResult();
-	}
-
-
-	public void deleteAll() throws DataAccessException {
-		getHibernateTemplate().bulkUpdate("delete " + getModelClass().getSimpleName());
-	}
-
-	public void deleteAll(Collection<T> entities) throws DataAccessException {
-		if (entities != null) {
-			getHibernateTemplate().deleteAll(entities);
-		}
 	}
 
 	public void evict(T t) throws DataAccessException {
 		if (t != null)
 			getHibernateTemplate().evict(t);
 	}
-
-	// public void saveOrUpdateAll(Collection<T> entities)
-	// throws DataAccessException {
-	// getHibernateTemplate().saveOrUpdateAll(entities);
-	//
-	// }
 
 	public List<T> findTopByCriteria(final DetachedCriteria detachedCriteria, final int top, final Order[] orders)
 			throws DataAccessException {
@@ -259,7 +209,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		return count.intValue();
 	}
 	
-	public int getCount() {
+	public int getUniqueCount() {
 		Object count = getSessionFactory().getCurrentSession().createCriteria(getModelClass())
 				.setProjection(Projections.rowCount()).uniqueResult();
 		if (count == null) {
@@ -485,10 +435,6 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 			}
 		}
 		return query.executeUpdate();
-	}
-	
-	public Session getSession(){
-		return this.getSessionFactory().openSession();
 	}
 	
 }
