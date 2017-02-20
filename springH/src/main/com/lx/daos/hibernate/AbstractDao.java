@@ -56,6 +56,10 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		getHibernateTemplate().flush();
 	}
 	@Override
+	public void refresh(T t) throws DataAccessException {
+		getHibernateTemplate().refresh(t);;
+	}
+	@Override
 	public void clear() throws DataAccessException {
 		getHibernateTemplate().clear();
 	}

@@ -30,6 +30,8 @@ public interface Dao<T, ID extends Serializable> {
 	
 	public void flush() throws DataAccessException;
 	
+	public void refresh(T t) throws DataAccessException;
+	
 	public void clear() throws DataAccessException;
 	
 	//获取数据的方法
