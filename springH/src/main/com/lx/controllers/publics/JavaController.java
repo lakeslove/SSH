@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ import com.lx.services.UserService;
 @Controller
 public class JavaController extends AbstractController{
 
-	private static final Logger log = LogManager.getLogger(JavaController.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractController.class);
 	
 	@Autowired
 	private UserService userService;

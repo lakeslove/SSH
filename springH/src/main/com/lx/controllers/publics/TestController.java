@@ -1,7 +1,6 @@
 package com.lx.controllers.publics;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,11 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.lx.controllers.AbstractController;
 import com.lx.test.TestError;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class TestController {
+	
+	private static final Logger log = LoggerFactory.getLogger(AbstractController.class);
 	
 	@RequestMapping(value = { "test.htm" })
 	public String test() {
