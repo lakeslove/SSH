@@ -209,7 +209,22 @@
 	</bean>
 	<!-- velocityEngine end -->
 	
-	<!-- IOC demo start-->
+	<!-- sendEmail start -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}" />
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.port">${mail.smtp.port}</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- sendEmail end -->
+	
+	<!-- IOC demo start -->
 	<!-- springFrome initiate check start -->
 	<bean class="com.lx.utils.CheckConfigs">
 		<property name="dbUrl" value="${db.url}" />
@@ -240,5 +255,7 @@
 		</aop:aspect>
 	</aop:config>
 	<!-- AOP demo end  -->
+	
+	
 	
 </beans>
