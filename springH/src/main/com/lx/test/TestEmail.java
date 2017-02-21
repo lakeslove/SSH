@@ -1,12 +1,18 @@
 package com.lx.test;
 
+import com.lx.utils.Email;
 import com.lx.utils.SpringEmailUtil;
 
 public class TestEmail {
 	public static void main(String[] args){
-		SpringEmailUtil.Email email = new SpringEmailUtil().getEmail();		
+		sendEmailTest();
+	}
+	
+	public static void sendEmailTest(){
+		Email email = new Email();	
+		email.setFromEmailAddress("liuxin@iesolutions.com.cn");
 		email.setFromPersonName("sbsbsb");
-		email.setToEmailAddresses(new String[]{"1174756981@qq.com"});
+		email.setToEmailAddresses(new String[]{"quzhinan@iesolutions.com.cn"});
 		email.setSubject("测试");
 		email.setContent("ceshidddda");
 		try {

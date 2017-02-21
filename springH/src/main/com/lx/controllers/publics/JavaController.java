@@ -87,13 +87,18 @@ public class JavaController extends AbstractController{
 	}
 	
 	@RequestMapping(value = { "formtest.htm" })
-	public String formtest(Model model) throws Exception {
+	public String formtest(Model model){
 		log.info("java Start");
 		User user = userService.findById(1l);
 		
 		user.setName("qb\r\n123");
 		
-		model.addAttribute("user", getJsonString(user));
+		try {
+			model.addAttribute("user", getJsonString(user));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		log.info("java end");
 		return "tiles.view.body.java";
 	}
