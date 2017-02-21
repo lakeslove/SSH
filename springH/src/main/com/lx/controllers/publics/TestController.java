@@ -1,7 +1,8 @@
 package com.lx.controllers.publics;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lx.controllers.AbstractController;
 import com.lx.utils.Email;
-import com.lx.utils.SpringEmailUtil;
 import com.lx.utils.PropertyUtil;
+import com.lx.utils.SpringEmailUtil;
+import com.lx.utils.VelocitiesUtil;
 
 @Controller
 public class TestController {
@@ -32,7 +34,11 @@ public class TestController {
 		email.setFromPersonName(PropertyUtil.getPropertyValue("mail.fromAddress"));
 		email.setToEmailAddresses(new String[]{"sendToxxx@qq.com"});
 		email.setSubject("邮件标题");
-		email.setContent("你好,这是测试邮件");
+		Map<String,Object> velocityContext = new HashMap<>();
+		velocityContext.put("name", "VelocityEngine");
+		velocityContext.put("result", "效果还行吧");
+		String content = VelocitiesUtil.getVelocityText("email_test.vm", velocityContext);
+		email.setContent(content);
 		model.addAttribute("email", email);
 		return "email";
 	}

@@ -202,13 +202,22 @@
 	<!-- 文件上传限制 结束 -->
 	
 	<!-- velocityEngine start-->
-	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
 		<property name="resourceLoaderPath">
 			<value>classpath:velocity</value>
 		</property>
+		<property name="velocityProperties">
+			<props>
+				<prop key="file.resource.loader.cache">false</prop>
+				<prop key="file.resource.loader.modificationCheckInterval">3</prop>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+			</props>
+		</property>
 	</bean>
 	<!-- velocityEngine end -->
-	
+
 	<!-- sendEmail start -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${mail.host}" />
