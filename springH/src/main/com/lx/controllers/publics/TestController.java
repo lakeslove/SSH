@@ -1,6 +1,7 @@
 package com.lx.controllers.publics;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.lx.controllers.AbstractController;
 import com.lx.utils.Email;
 import com.lx.utils.SpringEmailUtil;
+import com.lx.utils.PropertyUtil;
 
 @Controller
 public class TestController {
@@ -26,9 +28,9 @@ public class TestController {
 	@RequestMapping(value = { "email.htm" })
 	public String email(Model model) {
 		Email email = new Email();	
-		email.setFromEmailAddress("fromxxx@qq.com");
-		email.setFromPersonName("发件人");
-		email.setToEmailAddresses(new String[]{"sendxxx@send.com"});
+		email.setFromEmailAddress(PropertyUtil.getPropertyValue("mail.fromAddress"));
+		email.setFromPersonName(PropertyUtil.getPropertyValue("mail.fromAddress"));
+		email.setToEmailAddresses(new String[]{"sendToxxx@qq.com"});
 		email.setSubject("邮件标题");
 		email.setContent("你好,这是测试邮件");
 		model.addAttribute("email", email);
@@ -41,9 +43,11 @@ public class TestController {
 		email.setToEmailAddresses(email.getToEmailAddresses()[0].split(","));
 		try {
 			SpringEmailUtil.sendEmail(email);
+			model.addAttribute("result","发送邮件成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			model.addAttribute("result", e.getMessage());
 		}
 		return "email";
 	}

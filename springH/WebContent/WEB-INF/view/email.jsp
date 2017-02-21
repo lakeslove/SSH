@@ -12,14 +12,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-邮件发送成功<br>
+注意，测试前请修改邮件的授权码！！！（system.property里面的mail.password）
 <form:form modelAttribute="email" action="sendEmail.htm" method="post">
-接收邮箱:<form:input path="toEmailAddresses"/>
-邮件标题:<form:input path="subject"/>
-邮件内容:<form:textarea path="content"/>
-发出邮箱:<form:input path="fromEmailAddress"/>
-接收人名:<form:input path="fromPersonName"/>
-<input type="submit" value ="发送"/>
+<table>
+<tr><td>接收邮箱:</td><td><form:input path="toEmailAddresses"/></td></tr>
+<tr><td>邮件标题:</td><td><form:input path="subject"/></td></tr>
+<tr><td>邮件内容:</td><td><form:textarea path="content"/></td></tr>
+<tr><td colspan="2">如果是网易或qq邮箱，那么发出的邮箱必须和开通授权码的邮箱相同</td></tr>
+<tr><td>发出邮箱:</td><td><form:input path="fromEmailAddress"/></td></tr>
+<tr><td>发送者:</td><td><form:input path="fromPersonName"/></td></tr>
+<tr><td colspan="2"><input type="submit" value ="发送"/></td></tr>
+</table>
 </form:form>
+发送结果：
+<textarea>
+${result}
+</textarea>
 </body>
 </html>
