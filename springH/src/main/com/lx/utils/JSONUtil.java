@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -34,6 +35,41 @@ public class JSONUtil {
 		return objm.writeValueAsString(data);
 	}
 	
+	public static String getEscapeJSONString(Object data) throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper objm = new ObjectMapper();
+		String JSONString = objm.writeValueAsString(data);
+		return escapeJSONString(JSONString);
+	}
+	
+	/**
+	 * 由于生成的JSON字符串的转义函数
+	 * 由于生成的JSON字符串里的值被双引号包裹,而值中的双引号又被转义,所以只需要转"<"和">"即可
+	 * 但是由于"<"和">"转义后会出现"&",不利于反转义,所以在转"<"和">"之前需要先转"&".
+	 * @param JSONString
+	 * @return
+	 */
+	public static String escapeJSONString(String JSONString) {
+		if (StringUtils.isNotEmpty(JSONString)) {
+			StringBuilder builder = new StringBuilder();
+			for (char c : JSONString.toCharArray()) {
+				switch (c) {
+				case '&':
+					builder.append("&amp;");
+					break;
+				case '<':
+					builder.append("&lt;");
+					break;
+				case '>':
+					builder.append("&gt;");
+					break;
+				default:
+					builder.append(c);
+				}
+			}
+			return builder.toString();
+		}
+		return JSONString;
+	}
 	
 	/**
 	 * 从json字符串转化为对象
