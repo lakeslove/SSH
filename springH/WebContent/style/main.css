@@ -7,6 +7,30 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #333;
 }
+a{
+	cursor: pointer;
+	text-decoration: none;
+}
+
+
+.header{
+	position:relative;
+	margin:10px 5px;
+	overflow: hidden;
+}
+.contenter{
+	position:relative;
+	margin:10px 5px;
+	overflow: hidden;
+	min-height: 300px;
+}
+.footer{
+	position:relative;
+	padding:10px;
+	background-color:#c1dacc;
+	margin:10px 5px;
+	overflow: hidden;
+}
 
 button,input[type=button],input[type=reset],input[type=submit]{
 	font-size: 12px;
@@ -67,4 +91,19 @@ td{
 }
 .pr{
 	position:relative;
+}
+.blocks{
+	overflow:hidden;
+	margin:10px;
+	border:solid 1px red;
+}
+.block{
+	position:relative;
+	float: left;
+	width:150px;
+	height:150px;
+	background-color:#99dea5;
+	margin:10px;
+	text-align:center;
+	line-height:150px;
 }

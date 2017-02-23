@@ -39,15 +39,26 @@
     font-size: 1.2em;
 }
 .navigation{
-    background: rgb(146, 141, 146);
+    background: #b0dce0;
 }
 .nav li{
 display:inline;
+margin:10px;
+font-size:28px;
+font-weight: bolder;
 }
+.nav li a{
+text-decoration: none;
+color:#f3a;
+}
+.selected-nav{
+	color:white;
+}
+
 </style>
 <div class="subject row pr">
     <div class="col logo">
-      <h1><a href="/">javaEE功能示例--SSH</a></h1>
+      <h1><a href="index.htm">javaEE功能示例--SSH</a></h1>
     </div>    
     <div class="col search">
       <form action="" target="_blank">
@@ -59,9 +70,12 @@ display:inline;
 	<div class="row">
 		<div class="col nav">
 			<ul id="index-nav">
-				<li><a href="/" data-id="index" title="SSH" class="current">首页</a></li>
-				<li><a href="/datas.htm" target="_blank" data-id="note" title="数据处理">数据处理</a></li>
-				<li><a href="/files.htm" target="_blank" data-id="tool" title="文件处理">文件处理</a></li>
+				<li><a href="index.htm" id="nav-index-id" data-id="index" title="SSH" class="current">首页</a></li>
+				<li><a href="datas.htm" id="nav-datas-id" target="_blank" data-id="note" title="数据处理">数据处理</a></li>
+				<li><a href="files.htm" id="nav-files-id" target="_blank" data-id="tool" title="文件处理">文件处理</a></li>
+				<li><a href="methods.htm" id="nav-files-id" target="_blank" data-id="tool" title="共通方法">共通方法</a></li>
+				<li><a href="frames.htm" id="nav-files-id" target="_blank" data-id="tool" title="框架功能">框架功能</a></li>
+				<li><a href="others.htm" id="nav-files-id" target="_blank" data-id="tool" title="其他">其他</a></li>
 			</ul>
 		</div>
 	</div>

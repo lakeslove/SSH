@@ -1,4 +1,4 @@
-package com.lx.controllers.publics;
+package com.lx.controllers.datas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,9 @@ import com.lx.controllers.AbstractController;
 @Controller
 public class CRUDController {
 	private static final Logger log = LoggerFactory.getLogger(AbstractController.class);
-	@RequestMapping(value = { "index.htm" })
-	public String index() {
-		return "tiles.view.body.index";
+	@RequestMapping(value = { "crud.htm" })
+	public String crud() {
+		return "tiles.view.body.crud";
 	}
 
 }

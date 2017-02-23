@@ -17,6 +17,20 @@
 		<put-attribute name="body" value="/WEB-INF/view/index.jsp" />
 	</definition>
 	
+	<definition name="tiles.view.body.datas" extends="tiles.template.public">
+		<put-attribute name="title" value="view.top.title" />
+		<put-attribute name="css" value="" />
+		<put-attribute name="js" value="" />
+		<put-attribute name="body" value="/WEB-INF/view/datas.jsp" />
+	</definition>
+	
+	<definition name="tiles.view.body.files" extends="tiles.template.public">
+		<put-attribute name="title" value="view.top.title" />
+		<put-attribute name="css" value="" />
+		<put-attribute name="js" value="" />
+		<put-attribute name="body" value="/WEB-INF/view/files.jsp" />
+	</definition>
+	
 	<definition name="tiles.view.body.java" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />

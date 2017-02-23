@@ -7,6 +7,7 @@ $(document).ready(function(){
 	//ajax预处理
 	$.ajaxPretrate();
 })
+
 /**
  * ajax预处理
  */
@@ -23,6 +24,11 @@ jQuery.extend({ajaxPretrate:function(){
 //		$.allowAll();
 	});
 }});
+
+jQuery.extend({changeSelectedNav:function(id){
+	$("#"+id).css("color","white");
+}});
+
 
 /**
  * 递归循环来对一个js对象进行转义
