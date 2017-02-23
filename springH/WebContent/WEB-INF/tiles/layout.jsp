@@ -15,12 +15,12 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="Keywords" content="" />
-<script src="scripts/main.js"></script>
+<script src="javascripts/jquery/jQuery-3.1.0.js"></script>
+<script src="javascripts/main.js"></script>
 <link href="style/main.css" type="text/css" rel="stylesheet" />
 <c:if test="${!empty css}">
 <link href="<tiles:getAsString name="css"/>" type="text/css" rel="stylesheet" />
 </c:if>
-<script src="scripts/jquery/jQuery-3.1.0.js"></script>
 <c:if test="${!empty js}">
 <script src="<tiles:getAsString name="js"/>"></script>
 </c:if>

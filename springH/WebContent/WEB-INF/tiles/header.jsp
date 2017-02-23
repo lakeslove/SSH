@@ -6,35 +6,62 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <style>
-.row {
-    width: 100%;
-    max-width: 1140px;
-    min-width: 755px;
-    margin: 0 auto;
-    overflow: hidden;
+.logo{
+	margin-left:8%;
+	width: 61.6%;
+	hight:100px;
+}
+.logo a {
+    height: 39px;
+    display: block;
+}
+.search {
+	position:relative;
+	top:30px;
+    width: 26%;
+    margin:15px;
+}
+.search input {
+    line-height: 34px;
+    left: 9px;
+    top: 0;
+    text-align: initial;
+    white-space: nowrap;
+    right: 9px;
+    height: 35px;
+    width: 94%;
+    padding: 0 3% 0 3%;
+    background-color: #fff;
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
+    color: #ccc;
+    font-weight: 400;
+    font-size: 1.2em;
+}
+.navigation{
+    background: rgb(146, 141, 146);
 }
 .nav li{
 display:inline;
-
 }
 </style>
-<div class="row">
+<div class="subject row pr">
     <div class="col logo">
-      <h1><a href="/">菜鸟教程 -- 学的不仅是技术，更是梦想！</a></h1>
-    </div>
-        <div class="col search search-desktop last">
-      <form action="//www.runoob.com/" target="_blank">
-        <input class="placeholder" id="s" name="s" value="搜索……" autocomplete="off">
+      <h1><a href="/">javaEE功能示例--SSH</a></h1>
+    </div>    
+    <div class="col search">
+      <form action="" target="_blank">
+        <input class="" id="s" placeholder="search"  name="search" autocomplete="off">
       </form>
     </div>
-  </div>
+</div>
 <div class="container navigation">
 	<div class="row">
 		<div class="col nav">
 			<ul id="index-nav">
-				<li><a href="//www.runoob.com/" data-id="index" title="菜鸟教程" class="current">首页</a></li>
-				<li><a href="//www.runoob.com/w3cnote/" target="_blank" data-id="note" title="菜鸟笔记">菜鸟笔记</a></li>
-				<li><a href="//c.runoob.com/" target="_blank" data-id="tool" title="不止于工具">菜鸟工具</a></li>
+				<li><a href="/" data-id="index" title="SSH" class="current">首页</a></li>
+				<li><a href="/datas.htm" target="_blank" data-id="note" title="数据处理">数据处理</a></li>
+				<li><a href="/files.htm" target="_blank" data-id="tool" title="文件处理">文件处理</a></li>
 			</ul>
 		</div>
 	</div>

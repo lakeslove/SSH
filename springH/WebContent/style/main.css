@@ -1,6 +1,12 @@
 @CHARSET "UTF-8";
 
-
+body {
+    margin: 0;
+    font-size: 1.2em;
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,STHeiti,"Microsoft Yahei",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #333;
+}
 
 button,input[type=button],input[type=reset],input[type=submit]{
 	font-size: 12px;
@@ -47,4 +53,18 @@ td{
 }
 .shouldHiddenInput{
 	display:none;
+}
+.row {
+    width: 100%;
+    max-width: 1140px;
+    min-width: 755px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.col{
+	margin-right: 1%;
+    float: left;
+}
+.pr{
+	position:relative;
 }
