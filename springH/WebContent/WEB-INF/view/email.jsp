@@ -5,13 +5,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 注意，测试前请修改邮件的授权码！！！（system.property里面的mail.password）
 <form:form modelAttribute="email" action="sendEmail.htm" method="post">
 <table>
@@ -28,5 +21,3 @@
 <textarea>
 ${result}
 </textarea>
-</body>
-</html>

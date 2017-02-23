@@ -11,8 +11,8 @@ import com.lx.controllers.AbstractController;
 public class TopController {
 	private static final Logger log = LoggerFactory.getLogger(AbstractController.class);
 	@RequestMapping(value = { "index.htm" })
-	public String error() {
-		return "index";
+	public String index() {
+		return "tiles.view.body.index";
 	}
 
 }
