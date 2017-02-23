@@ -1,4 +1,6 @@
 //调用示例
+//必须的变量 nowPage,numPerPage,sizeOfAll,methodName,success
+//可选的变量 num,prePagesString,preNumString
 //	pageUtils.pageHelper({
 //        nowPage:19,
 //        numPerPage:9,
@@ -26,14 +28,14 @@
 var pageUtils ={
     pageHelper:pageHelper
 }
+//必须的变量 nowPage,numPerPage,sizeOfAll,methodName,success
+//可选的变量 num,prePagesString,preNumString
 function pageHelper(settings){
     //为了兼容ie9,所以变量需要预先定义值
-        //必须的变量 nowPage,numPerPage,sizeOfAll,methodName,success
         var nowPage=settings.nowPage;
         var numPerPage=settings.numPerPage;
         var sizeOfAll=settings.sizeOfAll;
         var methodName =settings.methodName;
-        //可选的变量 num,prePagesString,preNumString
         var Num = 5;
         var pagesString = "";
         var numString = "";
