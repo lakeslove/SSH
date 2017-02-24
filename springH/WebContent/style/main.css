@@ -107,3 +107,8 @@ td{
 	text-align:center;
 	line-height:150px;
 }
+.small_content{
+	bolder:solid 1px red;
+	margin:10px;
+	padding:10px;
+}

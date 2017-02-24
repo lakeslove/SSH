@@ -3,7 +3,7 @@ package com.lx.utils;
 import java.io.Serializable;
 import java.util.List;
 
-public class PageHelp<T> implements Serializable {
+public class PageData<T> implements Serializable {
 
 	private static final long serialVersionUID = 6004807783441437877L;
 
@@ -19,14 +19,14 @@ public class PageHelp<T> implements Serializable {
 
 	private List<T> listInCurrentPage;
 	
-	public PageHelp(){
-		PageHelp<?> pageHelp = new PageHelp<>();
+	public PageData(){
+		PageData<?> pageHelp = new PageData<>();
 		pageHelp.sizeOfAll = 0l;
 		pageHelp.sumPage = 1l;
 		pageHelp.sizeInCurrentPage = 0;
 	}
 	
-	public PageHelp(Long sizeOfAll, List<T> listInCurrentPage) {
+	public PageData(Long sizeOfAll, List<T> listInCurrentPage) {
 		this.sizeOfAll = sizeOfAll;
 		this.sumPage = sumPage(sizeOfAll);
 		this.listInCurrentPage = listInCurrentPage;
@@ -50,7 +50,7 @@ public class PageHelp<T> implements Serializable {
 	}
 
 	public static void setPerPageNum(int perPageNum) {
-		PageHelp.perPageNum = perPageNum;
+		PageData.perPageNum = perPageNum;
 	}
 
 	public long getSizeOfAll() {

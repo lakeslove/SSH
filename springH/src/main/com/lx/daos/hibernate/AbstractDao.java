@@ -25,7 +25,7 @@ import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.lx.daos.Dao;
 
 @SuppressWarnings("unchecked")
-public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport implements Dao<T, ID> {
+public abstract class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport implements Dao<T, ID> {
 	private static final Logger log = LogManager.getLogger(AbstractDao.class); 
 	
 //	public abstract Class<T> getModelClass() throws DataAccessException;
@@ -41,6 +41,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 	}
 	
 	//利用反射来获取调用此方法的类
+	//因为这个方法只能由子类调用,所以将AbstractDao设置为抽象类,不允许直接初始化对象
 	@Override
 	public Class<T> getModelClass() throws DataAccessException {
 		Class<?> clz = this.getClass();
@@ -51,6 +52,7 @@ public class AbstractDao<T, ID extends Serializable> extends HibernateDaoSupport
 		Class<T> entityClass = (Class<T>) types[0];
 		return entityClass;
 	}
+	
 	@Override
 	public void flush() throws DataAccessException {
 		getHibernateTemplate().flush();

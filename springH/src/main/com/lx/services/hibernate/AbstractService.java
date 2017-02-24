@@ -33,6 +33,11 @@ public abstract class AbstractService<T, ID extends Serializable> implements Ser
 	
 	public abstract Dao<T, ID> getDao() throws ServiceException;
 	
+//	public Dao<T, ID> getDao2() throws ServiceException{
+//		Dao<T,ID> tmpDao = new AbstractDao<T,ID>();
+//		return tmpDao;
+//	}
+	
 	protected HttpServletRequest getRequest() {
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		return ((ServletRequestAttributes)ra).getRequest();

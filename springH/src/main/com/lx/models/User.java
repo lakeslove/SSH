@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "user")
+public class User extends Abstract implements Serializable {
 
 	/**
 	 * 
@@ -22,12 +22,15 @@ public class User implements Serializable {
 	@Column(name = "id", insertable = false, updatable = false)
 	private Long id;
 	
-	@Size(max = 1,message = "{typeMismatch.user.id}")
-	@Column(name = "NAME")
+	@Size(max = 20,message = "{typeMismatch.user.name.size}")
+	@Column(name = "name")
 	private String name;
-
-	@Column(name = "age")
-	private Integer age;
+	
+	@Column(name = "password")
+	private String password;
+	
+	@Column(name = "slogan")
+	private String slogan;
 
 	public Long getId() {
 		return id;
@@ -45,14 +48,20 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getAge() {
-		return age;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	
+	public String getSlogan() {
+		return slogan;
+	}
+
+	public void setSlogan(String slogan) {
+		this.slogan = slogan;
+	}
 
 }

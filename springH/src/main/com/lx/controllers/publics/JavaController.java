@@ -77,9 +77,6 @@ public class JavaController extends AbstractController{
 		if (user.getName()==null) {
 			bindResult.rejectValue("name","", "nameError");
 		}
-		if (user.getAge()==null) {
-			bindResult.rejectValue("age","", "ageError");
-		}
 		user.setId(58L);
 		model.addAttribute("user", user);
 		log.info("java end" + user.getName());
