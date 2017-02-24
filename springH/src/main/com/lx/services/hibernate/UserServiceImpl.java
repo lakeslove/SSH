@@ -1,5 +1,9 @@
 package com.lx.services.hibernate;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +30,14 @@ public class UserServiceImpl extends AbstractService<User, Long>implements UserS
 
 	@Override
 	@Transactional(readOnly=false, rollbackFor=Exception.class)
-	public PageData<User> serchUsers(User user, Long currentPage) {
-		userDao.serchUsers(user, currentPage);
-		// TODO Auto-generated method stub
-		return null;
+	public PageData<User> serchUsers(User user, int currentPage) {
+		Map<String,Object> FieldsMap = new HashMap<>();
+		FieldsMap.put("name", user.getName());
+		FieldsMap.put("slogan", user.getSlogan());
+		Long sizeOfAll = userDao.getCountByFields(FieldsMap, true);
+		List<User> userList = userDao.getOffsetLimitOrderListByFields(FieldsMap, "id", "asc", PageData.getPerPageNum(), PageData.getOffset(currentPage), true);
+		PageData<User> pageData = new PageData<User>(sizeOfAll,userList);
+		return pageData;
 	}
 
 //	@Transactional(readOnly=false, rollbackFor=Exception.class)

@@ -30,7 +30,24 @@ public class CRUDController {
 	}
 	
 	@RequestMapping(value = { "searchUsers.htm" })
-	public String searchUsers(@ModelAttribute User user,Long currentPage) throws JsonGenerationException, JsonMappingException, IOException {
+	public String searchUsers(@ModelAttribute User user,Integer currentPage) throws JsonGenerationException, JsonMappingException, IOException {
+		PageData<User> pageData = userService.serchUsers(user,currentPage);
+		return JSONUtil.getEscapeJSONString(pageData);
+	}
+	
+	@RequestMapping(value = { "addUser.htm" })
+	public String addUser(@ModelAttribute User user,Integer currentPage) throws JsonGenerationException, JsonMappingException, IOException {
+		return "tiles.view.body.addUser";
+	}
+	
+	@RequestMapping(value = { "editUser.htm" })
+	public String editUser(@ModelAttribute User user,Integer currentPage) throws JsonGenerationException, JsonMappingException, IOException {
+		PageData<User> pageData = userService.serchUsers(user,currentPage);
+		return "tiles.view.body.editUser";
+	}
+	
+	@RequestMapping(value = { "saveUser.htm" })
+	public String saveUser(@ModelAttribute User user,Integer currentPage) throws JsonGenerationException, JsonMappingException, IOException {
 		PageData<User> pageData = userService.serchUsers(user,currentPage);
 		return JSONUtil.getEscapeJSONString(pageData);
 	}

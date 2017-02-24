@@ -11,18 +11,18 @@ public class PageData<T> implements Serializable {
 
 	private long sizeOfAll;
 
-	private long sumPage;
+	private int sumPage;
 
 	private int sizeInCurrentPage;
 
-	private long currentPage;
+	private int currentPage;
 
 	private List<T> listInCurrentPage;
 	
 	public PageData(){
 		PageData<?> pageHelp = new PageData<>();
 		pageHelp.sizeOfAll = 0l;
-		pageHelp.sumPage = 1l;
+		pageHelp.sumPage = 1;
 		pageHelp.sizeInCurrentPage = 0;
 	}
 	
@@ -37,11 +37,11 @@ public class PageData<T> implements Serializable {
 		}
 	}
 
-	public static long sumPage(Long sizeOfAll) {
-		return (long) Math.ceil(sizeOfAll / perPageNum);
+	public static int sumPage(Long sizeOfAll) {
+		return (int) Math.ceil(sizeOfAll / perPageNum);
 	}
 
-	public static Integer getOffset(Integer page) {
+	public static int getOffset(int page) {
 		return (page - 1) * perPageNum;
 	}
 
@@ -65,7 +65,7 @@ public class PageData<T> implements Serializable {
 		return sumPage;
 	}
 
-	public void setSumPage(long sumPage) {
+	public void setSumPage(int sumPage) {
 		this.sumPage = sumPage;
 	}
 
@@ -81,7 +81,7 @@ public class PageData<T> implements Serializable {
 		return currentPage;
 	}
 
-	public void setCurrentPage(long currentPage) {
+	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
 
