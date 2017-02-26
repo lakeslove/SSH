@@ -11,5 +11,5 @@ $(document).ready(function() {
 });
 </script>
 <div class="blocks">
-<div class="block">增删改查</div>
+<a href="crud.htm"><div class="block">增删改查</div></a>
 </div>

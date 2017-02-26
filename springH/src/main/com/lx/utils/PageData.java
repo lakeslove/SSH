@@ -7,7 +7,7 @@ public class PageData<T> implements Serializable {
 
 	private static final long serialVersionUID = 6004807783441437877L;
 
-	public static int perPageNum = 10;
+	public double perPageNum = 10;
 
 	private long sizeOfAll;
 
@@ -19,14 +19,14 @@ public class PageData<T> implements Serializable {
 
 	private List<T> listInCurrentPage;
 	
-	public PageData(){
-		PageData<?> pageHelp = new PageData<>();
-		pageHelp.sizeOfAll = 0l;
-		pageHelp.sumPage = 1;
-		pageHelp.sizeInCurrentPage = 0;
+	public PageData(int currentPage){
+		this.sizeOfAll = 0l;
+		this.sumPage = 1;
+		this.currentPage = currentPage;
+		this.sizeInCurrentPage = 0;
 	}
 	
-	public PageData(Long sizeOfAll, List<T> listInCurrentPage) {
+	public void setData(Long sizeOfAll, List<T> listInCurrentPage){
 		this.sizeOfAll = sizeOfAll;
 		this.sumPage = sumPage(sizeOfAll);
 		this.listInCurrentPage = listInCurrentPage;
@@ -37,20 +37,20 @@ public class PageData<T> implements Serializable {
 		}
 	}
 
-	public static int sumPage(Long sizeOfAll) {
+	public int sumPage(Long sizeOfAll) {
 		return (int) Math.ceil(sizeOfAll / perPageNum);
 	}
 
-	public static int getOffset(int page) {
-		return (page - 1) * perPageNum;
+	public int getOffset(int page) {
+		return (int)((page - 1) * perPageNum);
 	}
 
-	public static int getPerPageNum() {
-		return perPageNum;
+	public int getPerPageNum() {
+		return (int)perPageNum;
 	}
 
-	public static void setPerPageNum(int perPageNum) {
-		PageData.perPageNum = perPageNum;
+	public void setPerPageNum(int perPageNum) {
+		this.perPageNum = perPageNum;
 	}
 
 	public long getSizeOfAll() {

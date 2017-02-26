@@ -1,3 +1,4 @@
+
 /**
  * 所有页面初始化时都要执行的函数
  */
@@ -13,13 +14,13 @@ $(document).ready(function(){
  */
 jQuery.extend({ajaxPretrate:function(){
 	$(document).ajaxSend(function(event,XMLHttpRequest,options){
-		XMLHttpRequest.setRequestHeader(HTTP_REQUEST_TYPE_KEY, HTTP_REQUEST_TYPE_AJAX);
+//		XMLHttpRequest.setRequestHeader(, );
 	}).ajaxStart(function() {
 //		$.forbidALL();
 	}).ajaxSuccess(function(event, XMLHttpRequest, ajaxOptions) {
-		$.ajaxSuccessException(event, XMLHttpRequest, ajaxOptions);
+//		$.ajaxSuccessException(event, XMLHttpRequest, ajaxOptions);
 	}).ajaxError(function(event, XMLHttpRequest, ajaxOptions, thrownError) {
-		$.ajaxErrorException(event, XMLHttpRequest, ajaxOptions);
+//		$.ajaxErrorException(event, XMLHttpRequest, ajaxOptions);
 	}).ajaxComplete(function() {
 //		$.allowAll();
 	});
@@ -31,10 +32,10 @@ jQuery.extend({changeSelectedNav:function(id){
 
 //对ajax的封装
 jQuery.extend({AJAX:function(settings){
-	if (url.indexOf('?') != -1) {
-		url = url + '&random=' + Math.random();
+	if (settings.url.indexOf('?') != -1) {
+		settings.url = settings.url + '&random=' + Math.random();
 	} else {
-		url = url + '?random=' + Math.random();
+		settings.url = settings.url + '?random=' + Math.random();
 	}
 	if(settings.type==undefined){
 		settings.type="GET";
@@ -51,6 +52,7 @@ jQuery.extend({AJAX:function(settings){
 		data : settings.data,
 		cache: false,
 		async : settings.async,
+		scriptCharset: 'utf-8',
 		dataType: settings.dataType,
 		success : function(data) {
 			settings.success(data);

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,18 @@ public class UserServiceImpl extends AbstractService<User, Long>implements UserS
 	@Transactional(readOnly=false, rollbackFor=Exception.class)
 	public PageData<User> serchUsers(User user, int currentPage) {
 		Map<String,Object> FieldsMap = new HashMap<>();
-		FieldsMap.put("name", user.getName());
-		FieldsMap.put("slogan", user.getSlogan());
+		if(StringUtils.isNotEmpty(user.getName())){
+			FieldsMap.put("name", "%"+user.getName()+"%");
+		}
+		if(StringUtils.isNotEmpty(user.getSlogan())){
+			FieldsMap.put("slogan", "%"+user.getSlogan()+"%");
+		}
 		Long sizeOfAll = userDao.getCountByFields(FieldsMap, true);
-		List<User> userList = userDao.getOffsetLimitOrderListByFields(FieldsMap, "id", "asc", PageData.getPerPageNum(), PageData.getOffset(currentPage), true);
-		PageData<User> pageData = new PageData<User>(sizeOfAll,userList);
+		PageData<User> pageData = new PageData<User>(currentPage);
+		if(sizeOfAll>0){
+			List<User> userList = userDao.getOffsetLimitOrderListByFields(FieldsMap, "id", "asc", pageData.getPerPageNum(), pageData.getOffset(currentPage), true);
+			pageData.setData(sizeOfAll, userList);
+		}
 		return pageData;
 	}
 

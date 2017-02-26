@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -18,7 +20,7 @@ public class User extends Abstract implements Serializable {
 	private static final long serialVersionUID = 6137279744955162255L;
 
 	@Id
-//	@Size(max = 1,message = "{typeMismatch.user.id}")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id", insertable = false, updatable = false)
 	private Long id;
 	

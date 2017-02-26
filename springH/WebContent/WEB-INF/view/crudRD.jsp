@@ -5,6 +5,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<script type="text/javascript" src="javascripts/pageUtils.js"></script>
 <script>
 $(document).ready(function() {
 	$.changeSelectedNav("nav-datas-id");
@@ -14,19 +15,18 @@ $(document).ready(function() {
 });
 function searchAdminUserList(page) {
 	var searchFormData = $('#searchUsersForm').serialize();
-	var tempData = searchFormData + ('&pageIndex=' + pageIndex);
+	var tempData = searchFormData + ('&currentPage=' + page);
 	$.AJAX({
 		url :  "searchUsers.htm",
 		type : "post",
 		data : tempData,
-		dataType: dataType,
+		dataType: "json",
 		success : function(data) {
 			showDatasInTable(data);
 		}
 	});
 }
 function showDatasInTable(data){
-	$.deleteTds();
 	var sizeInCurrentPage = data.sizeInCurrentPage;
 	var sizeOfAll = data.sizeOfAll;
 	var sumPage = data.sumPage;
@@ -44,12 +44,12 @@ function showDatasInTable(data){
 				"<td>"+resultList[i].id+"</td>"+
 				"<td>"+resultList[i].name+"</td>"+
 				"<td>"+resultList[i].slogan+"</td>"+
-				"<td>"+"<a href=''>编辑</a>"+"</td>"+
-				"<td>"+"<a href=''>删除</a>"+"</td>"+
+				"<td>"+"<a href='editUser.htm?userId="+resultList[i].id+"'>编辑</a>"+"</td>"+
+				"<td>"+"<a href='deleteUser.htm?userId="+resultList[i].id+"'>删除</a>"+"</td>"+
 				"</tr>"
 				insertTds = insertTds+teminsertTds;
 		}
-		$("#list-content-header").html(insertTds);
+		$("#searchUsersResult").html(insertTds);
 		if(sumPage>1){
 			pageUtils.pageHelper({
 				nowPage:page,
@@ -57,8 +57,8 @@ function showDatasInTable(data){
 		        sizeOfAll:sizeOfAll,
 		        methodName:"turnPage",
 		        success:function(data){
-		        	$("#searchUsersResultPages").html(bodyTurnPageString);
-		 		   	$("#searchUsersResultNumbers").html(bodyTurnPageString);
+		        	$("#searchUsersResultPages").html(data.pagesString);
+		 		   	$("#searchUsersResultNumbers").html(data.numString);
 		        }
 			})
 		}else{
@@ -68,37 +68,47 @@ function showDatasInTable(data){
 	}
 }
 function turnPage(page){
-	
+	searchAdminUserList(page);
 }
 </script>
 <style>
 #searchUsersResultPagesDiv{
 }
+.dataListTable{
+border-collapse: collapse;
+}
+.dataListTable td{
+min-width:100px;
+border: 1px solid #666666;
+text-align: center;
+}
 </style>
 <div class="small_content">
-	<form:form id="searchUsersForm">
+	<form id="searchUsersForm">
 		<table>
 			<tr>
 				<td colspan="2">数据检索</td>
 			</tr>
 			<tr>
-				<td colspan="2"></td>
-			</tr>
-			<tr>
 				<td>用户名:</td>
-				<td><form:input path="name" /></td>
+				<td><input name="name" /></td>
 			</tr>
 			<tr>
 				<td>标语:</td>
-				<td><form:textarea path="slogan" /></td>
+				<td><textarea name="slogan" /></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="button" value="数据检索"
 					id="searchUsersButton" /></td>
 			</tr>
 		</table>
-	</form:form>
-	<table>
+	</form>
+	<br>
+	<br>
+	<br>
+	<table><tr><td>数据展示</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="newUser.htm">添加新用户</a></td></tr></table>
+	<br>
+	<table class="dataListTable">
 		<thead>
 		<tr>
 			<td>No.</td><td>id</td><td>name</td><td>slogan</td><td>编辑</td><td>删除</td>

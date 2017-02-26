@@ -123,7 +123,9 @@ public interface Dao<T, ID extends Serializable> {
 	
 	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,Boolean like) throws DataAccessException;
 	
-	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like,Boolean order);
+	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like);
+	
+	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like,String orderProperty,String order);
 	
 	public String getStringFromMap(Map<String,Object> FieldsMap,Boolean like);
 	
@@ -138,4 +140,5 @@ public interface Dao<T, ID extends Serializable> {
 	public Query getQueryBySqlAndObjects(String sql,Object[] paramArray);
 	
 	public void setQueryByParamArray(Query query,Object[] paramArray);
+	
 }

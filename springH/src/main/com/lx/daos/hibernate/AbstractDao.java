@@ -328,54 +328,57 @@ public abstract class AbstractDao<T, ID extends Serializable> extends HibernateD
 		return (Long)query.list().get(0);
 	}
 	@Override
-	public List<T> getOffsetLimitOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order, int limit, int offset,Boolean like) throws DataAccessException {
-		Query query = getQueryFromMap(FieldsMap,like,true);
-		query.setParameter("orderProperty", orderProperty);
-		query.setParameter("order", order);
+	public List<T> getOffsetLimitOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order, int limit, int offset,Boolean like) throws DataAccessException {		
+		Query query = getQueryFromMap(FieldsMap,like,orderProperty,order);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
 		return query.list();
 	}
 	@Override
 	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,String orderProperty,String order,Boolean like) throws DataAccessException {
-		Query query = getQueryFromMap(FieldsMap,like,true);
-		query.setParameter("orderProperty", orderProperty);
-		query.setParameter("order", order);
+		Query query = getQueryFromMap(FieldsMap,like,orderProperty,order);
 		return query.list();
 	}
 	@Override
 	public List<T> getOrderListByFields(Map<String,Object> FieldsMap,Boolean like) throws DataAccessException {
-		Query query = getQueryFromMap(FieldsMap,like,false);
+		Query query = getQueryFromMap(FieldsMap,like);
 		return query.list();
 	}
 	@Override
-	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like,Boolean order){
+	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like){
 		String tmpSqlFromMap = getStringFromMap(FieldsMap,like);
 		String modelName = getModelClass().getSimpleName();
-		String hql;
-		if(order){
-			hql = String.format("from %s where 1=1 %s order by :orderProperty :order", modelName, tmpSqlFromMap);
-		}else{
-			hql = String.format("from %s where 1=1 %s", modelName, tmpSqlFromMap);
-		}
+		String hql = String.format("from %s where 1=1 %s", modelName, tmpSqlFromMap);
 		Query query = getQueryFromMapAndHql(FieldsMap,hql);
 		return query;
 	}
 	
-	public String getStringFromMap(Map<String,Object> FieldsMap,Boolean like){
+	@Override
+	public Query getQueryFromMap(Map<String,Object> FieldsMap,Boolean like,String orderProperty,String order){
+		String tmpSqlFromMap = getStringFromMap(FieldsMap,like);
+		String modelName = getModelClass().getSimpleName();
+		String hql = String.format("from %s where 1=1 %s order by %s %s", modelName, tmpSqlFromMap,orderProperty,order);
+		Query query = getQueryFromMapAndHql(FieldsMap,hql);
+		return query;
+	}
+	
+	public String getStringFromMap(Map<String, Object> FieldsMap, Boolean like) {
+		if (FieldsMap.size() == 0) {
+			return "";
+		}
 		StringBuilder sb = new StringBuilder();
-		if(like){
-			for(Map.Entry<String, Object> entry : FieldsMap.entrySet()){
-				String fieldName = entry.getKey();
-				sb.append(fieldName + "like :"+fieldName+",");
-			}
-		}else{
-			for(Map.Entry<String, Object> entry : FieldsMap.entrySet()){
-				String fieldName = entry.getKey();
-				sb.append(fieldName + "= :"+fieldName+",");
+		sb.append(" and ");
+		for (Map.Entry<String, Object> entry : FieldsMap.entrySet()) {
+			String fieldName = entry.getKey();
+			if (entry.getValue() != null) {
+				if (like) {
+					sb.append(fieldName + " like :" + fieldName + " and ");
+				} else {
+					sb.append(fieldName + " = :" + fieldName + " and ");
+				}
 			}
 		}
-		sb.setLength(sb.length()-1);
+		sb.setLength(sb.length() - 5);
 		String hql = sb.toString();
 		return hql;
 	}
