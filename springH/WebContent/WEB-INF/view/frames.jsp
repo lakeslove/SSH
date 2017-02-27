@@ -11,8 +11,8 @@ $(document).ready(function() {
 });
 </script>
 <div class="blocks">
-<a href="crud.htm"><div class="block">增删改查</div></a>
-<a href=""><div class="block">联表查询</div></a>
-<a href=""><div class="block">级联</div></a>
-<a href=""><div class="block">其他知识</div></a>
+<a href="crud.htm"><div class="block">springMVC</div></a>
+<a href=""><div class="block">tiles</div></a>
+<a href=""><div class="block">spring</div></a>
+<a href=""><div class="block">hibernate</div></a>
 </div>
