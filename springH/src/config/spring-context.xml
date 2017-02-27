@@ -219,7 +219,8 @@
 	<!-- velocityEngine end -->
 
 	<!-- sendEmail start -->
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<!-- 解除默认的单例模式，设置scope="prototype" -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" scope="prototype">
 		<property name="host" value="${mail.host}" />
 		<property name="username" value="${mail.username}" />
 		<property name="password" value="${mail.password}" />

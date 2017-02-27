@@ -22,13 +22,62 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesIOUtil {
 	private static Logger log = LoggerFactory.getLogger(FilesIOUtil.class);
 	
+	/**
+	 * 通过文件名删除文件
+	 * @param path
+	 * @return
+	 */
+	public static void deleteFileByName(String path){
+		File tmpFile = new File(path);
+		tmpFile.deleteOnExit();
+	}
+	
+	/**
+	 * 通过文件名删除多个文件
+	 * @param path
+	 * @return
+	 */
+	public static void deleteFilesByName(String dir,String[] fileNames){
+		for(String fileName:fileNames){
+			File tmpFile = new File(dir+fileName);
+			tmpFile.deleteOnExit();
+		}
+	}
+	
+	/**
+	 * 列出此目录下的文件名
+	 * @param path
+	 * @return
+	 */
+	public static String[] getFileNameList(String path){
+		File tmpFile = new File(path);
+		if(tmpFile.exists()){
+			return tmpFile.list();
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * 列出此目录下的文件
+	 * @param path
+	 * @return
+	 */
+	public static File[] getFileList(String path){
+		File tmpFile = new File(path);
+		if(tmpFile.exists()){
+			return tmpFile.listFiles();
+		}
+		return null;
+	}
+	
 	//用javaIo方法 文件下载
 	public static void downloadFilesByJavaIo(HttpServletResponse response,String filePath){
 		try(InputStream inStream = new FileInputStream(filePath);
 			BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream())){
 			String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+1);
 			response.setContentType("text/html;charset=utf-8");  
-			response.setContentType("application/x-msdownload;");  
+			response.setContentType("application/x-msdownload;");
 			response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 			byte[] b = new byte[4096];
 			int len;
