@@ -66,4 +66,11 @@
 		<put-attribute name="body" value="/WEB-INF/view/crudCU.jsp" />
 	</definition>
 	
+	<definition name="tiles.view.body.filesList" extends="tiles.template.public">
+		<put-attribute name="title" value="view.top.title" />
+		<put-attribute name="css" value="" />
+		<put-attribute name="js" value="" />
+		<put-attribute name="body" value="/WEB-INF/view/filesList.jsp" />
+	</definition>
+	
 </tiles-definitions>

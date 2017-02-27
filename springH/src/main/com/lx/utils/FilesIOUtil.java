@@ -29,7 +29,7 @@ public class FilesIOUtil {
 	 */
 	public static void deleteFileByName(String path){
 		File tmpFile = new File(path);
-		tmpFile.deleteOnExit();
+		tmpFile.delete();
 	}
 	
 	/**
@@ -39,8 +39,8 @@ public class FilesIOUtil {
 	 */
 	public static void deleteFilesByName(String dir,String[] fileNames){
 		for(String fileName:fileNames){
-			File tmpFile = new File(dir+fileName);
-			tmpFile.deleteOnExit();
+			File tmpFile = new File(dir + fileName);
+			tmpFile.delete();
 		}
 	}
 	
@@ -76,6 +76,7 @@ public class FilesIOUtil {
 		try(InputStream inStream = new FileInputStream(filePath);
 			BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream())){
 			String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+1);
+			fileName = new String(fileName.getBytes("gbk"), "ISO8859-1");
 			response.setContentType("text/html;charset=utf-8");  
 			response.setContentType("application/x-msdownload;");
 			response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -92,6 +93,7 @@ public class FilesIOUtil {
 	//用spring框架的方法 文件下载
 	public static ResponseEntity<byte[]> downloadFilesBySpring(HttpServletResponse response,String filePath) throws IOException{
 		String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+1);
+		fileName = new String(fileName.getBytes("gbk"), "ISO8859-1");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.setContentDispositionFormData("attachment", fileName);
@@ -105,7 +107,8 @@ public class FilesIOUtil {
         if (!dirPath.exists()) {
             dirPath.mkdir();   
         }   
-        File uploadFile = new File(savePath + File.separator + realFileName);   
+//        File uploadFile = new File(savePath + File.separator + realFileName);  
+        File uploadFile = new File(savePath + realFileName);  
         file.transferTo(uploadFile);
 	}
 	//多文件上传
@@ -113,7 +116,7 @@ public class FilesIOUtil {
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
             MultipartFile mf = entity.getValue();   
             String fileName = mf.getOriginalFilename();   
-            File uploadFile = new File(savePath + File.separator + fileName);
+            File uploadFile = new File(savePath + fileName);
             mf.transferTo(uploadFile);
             // FileCopyUtils.copy(mf.getBytes(), uploadFile);   
         } 
@@ -122,7 +125,7 @@ public class FilesIOUtil {
 	public static void uploadMultiFiles(List<MultipartFile> fileList,String savePath) throws IllegalStateException, IOException{
 		for (MultipartFile file : fileList) {  
             String fileName = file.getOriginalFilename();   
-            File uploadFile = new File(savePath + File.separator + fileName);
+            File uploadFile = new File(savePath + fileName);
             file.transferTo(uploadFile);
             // FileCopyUtils.copy(mf.getBytes(), uploadFile);   
         } 
