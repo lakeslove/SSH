@@ -76,7 +76,7 @@ public class FilesIOUtil {
 		try(InputStream inStream = new FileInputStream(filePath);
 			BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream())){
 			String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+1);
-			fileName = new String(fileName.getBytes("gbk"), "ISO8859-1");
+			fileName = new String(fileName.getBytes("utf-8"), "ISO8859-1");
 			response.setContentType("text/html;charset=utf-8");  
 			response.setContentType("application/x-msdownload;");
 			response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
@@ -93,7 +93,7 @@ public class FilesIOUtil {
 	//用spring框架的方法 文件下载
 	public static ResponseEntity<byte[]> downloadFilesBySpring(HttpServletResponse response,String filePath) throws IOException{
 		String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+1);
-		fileName = new String(fileName.getBytes("gbk"), "ISO8859-1");
+		fileName = new String(fileName.getBytes("utf-8"), "ISO8859-1");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.setContentDispositionFormData("attachment", fileName);

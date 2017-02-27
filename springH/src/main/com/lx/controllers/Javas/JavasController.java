@@ -10,17 +10,9 @@ import com.lx.controllers.AbstractController;
 @Controller
 public class JavasController {
 	private static final Logger log = LoggerFactory.getLogger(AbstractController.class);
-	@RequestMapping(value = { "index.htm" })
+	@RequestMapping(value = { "javas.htm" })
 	public String index() {
-		return "tiles.view.body.index";
-	}
-	@RequestMapping(value = { "datas.htm" })
-	public String datas() {
-		return "tiles.view.body.datas";
-	}
-	@RequestMapping(value = { "files.htm" })
-	public String files() {
-		return "tiles.view.body.files";
+		return "tiles.view.body.javas";
 	}
 
 }
