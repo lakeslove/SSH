@@ -17,9 +17,8 @@
 }
 .search {
 	position:relative;
-	top:30px;
     width: 26%;
-    margin:15px;
+    margin:30px 15px;
 }
 .search input {
     line-height: 34px;
@@ -70,12 +69,12 @@ color:#f3a;
 	<div class="row">
 		<div class="col nav">
 			<ul id="index-nav">
-				<li><a href="index.htm" id="nav-index-id" data-id="index" title="SSH" class="current">首页</a></li>
-				<li><a href="datas.htm" id="nav-datas-id" data-id="note" title="数据处理">数据处理</a></li>
-				<li><a href="files.htm" id="nav-files-id" data-id="tool" title="文件处理">文件处理</a></li>
-				<li><a href="frames.htm" id="nav-frames-id" data-id="tool" title="框架功能">框架功能</a></li>
-				<li><a href="javas.htm" id="nav-methods-id" data-id="tool" title="Java">JAVA</a></li>
-				<li><a href="others.htm" id="nav-others-id" target="_blank" data-id="tool" title="其他">其他</a></li>
+				<li><a href="index.htm" id="nav-index-id" title="SSH" class="current">首页</a></li>
+				<li><a href="datas.htm" id="nav-datas-id" title="数据处理">数据处理</a></li>
+				<li><a href="files.htm" id="nav-files-id" title="文件处理">文件处理</a></li>
+				<li><a href="frames.htm" id="nav-frames-id" title="框架功能">框架功能</a></li>
+				<li><a href="javas.htm" id="nav-javas-id" title="Java">JAVA</a></li>
+				<li><a href="others.htm" id="nav-others-id" title="其他">其他</a></li>
 			</ul>
 		</div>
 	</div>

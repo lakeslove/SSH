@@ -7,12 +7,34 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
 $(document).ready(function() {
-	$.changeSelectedNav("nav-datas-id");
+	$.changeSelectedNav("nav-frames-id");
 });
 </script>
+<div class="blocks_title">springMVC</div>
 <div class="blocks">
-<a href="crud.htm"><div class="block">springMVC</div></a>
-<a href=""><div class="block">tiles</div></a>
-<a href=""><div class="block">spring</div></a>
-<a href=""><div class="block">hibernate</div></a>
+<a href=""><div class="block">servlet</div></a>
+<a href=""><div class="block">socket</div></a>
+<a href=""><div class="block">excel</div></a>
 </div>
+
+<div class="blocks_title">tiles</div>
+<div class="blocks">
+<a href=""><div class="block">servlet</div></a>
+<a href=""><div class="block">socket</div></a>
+<a href=""><div class="block">excel</div></a>
+</div>
+
+<div class="blocks_title">spring</div>
+<div class="blocks">
+<a href=""><div class="block">email</div></a>
+<a href=""><div class="block">socket</div></a>
+<a href=""><div class="block">excel</div></a>
+</div>
+
+<div class="blocks_title">hibernate</div>
+<div class="blocks">
+<a href=""><div class="block">servlet</div></a>
+<a href=""><div class="block">socket</div></a>
+<a href=""><div class="block">excel</div></a>
+</div>
+

@@ -31,18 +31,25 @@
 		<put-attribute name="body" value="/WEB-INF/view/files.jsp" />
 	</definition>
 	
-	<definition name="tiles.view.body.java" extends="tiles.template.public">
+	<definition name="tiles.view.body.frames" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/java.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/frames.jsp" />
 	</definition>
 	
-	<definition name="tiles.view.body.js" extends="tiles.template.public">
+	<definition name="tiles.view.body.javas" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/js.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/javas.jsp" />
+	</definition>
+	
+	<definition name="tiles.view.body.others" extends="tiles.template.public">
+		<put-attribute name="title" value="view.top.title" />
+		<put-attribute name="css" value="" />
+		<put-attribute name="js" value="" />
+		<put-attribute name="body" value="/WEB-INF/view/others.jsp" />
 	</definition>
 	
 	<definition name="tiles.view.body.testError" extends="tiles.template.public">
@@ -52,31 +59,38 @@
 		<put-attribute name="body" value="/WEB-INF/view/testError.jsp" />
 	</definition>
 	
+	<!-- datas开始 -->
 	<definition name="tiles.view.body.userList" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/crudRD.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/datas/crudRD.jsp" />
 	</definition>
 	
 	<definition name="tiles.view.body.userMessage" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/crudCU.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/datas/crudCU.jsp" />
 	</definition>
+	<!-- datas结束 -->
 	
+	<!-- files开始 -->
 	<definition name="tiles.view.body.filesList" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/filesList.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/files/filesList.jsp" />
 	</definition>
+	<!-- files结束 -->
 	
-	<definition name="tiles.view.body.frames" extends="tiles.template.public">
+	<!-- others开始 -->
+	<definition name="tiles.view.body.js" extends="tiles.template.public">
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/frames.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/js.jsp" />
 	</definition>
+	<!-- others结束 -->
+	
 </tiles-definitions>

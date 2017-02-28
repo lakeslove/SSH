@@ -7,55 +7,45 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
 $(document).ready(function() {
-	$.changeSelectedNav("nav-files-id");
+	$.changeSelectedNav("nav-others-id");
 });
 </script>
-<div class="blocks_title">JS函数</div>
+<div class="blocks_title">JS小例子</div>
 <div class="blocks">
-<a href="filesList.htm"><div class="block">图片裁剪</div></a>
-<a href="filesList.htm"><div class="block">canvas动画</div></a>
-<a href="filesList.htm"><div class="block">svg画板</div></a>
-<a href="filesList.htm"><div class="block">计算器</div></a>
-<a href="filesList.htm"><div class="block">日历</div></a>
-<a href="filesList.htm"><div class="block">防止二重提交</div></a>
-<a href="filesList.htm"><div class="block">canvas数字识别</div></a>
+<div class="block">图片预览</div>
+<div class="block">canvas图片裁剪</div>
+<div class="block">canvas数字识别</div>
+<div class="block">canvas动画</div>
+<div class="block">svg画板</div>
+<div class="block">计算器</div>
+<div class="block">日历</div>
+<div class="block">防止二重提交</div>
+<a href="crud.htm"><div class="block">翻页函数</div></a>
 </div>
 
 <div class="blocks_title">JS</div>
 <div class="blocks">
-<a href="filesList.htm"><div class="block">JS</div></a>
-<a href="filesList.htm"><div class="block">jQuery</div></a>
-<a href="filesList.htm"><div class="block">AngularJS</div></a>
-<a href="filesList.htm"><div class="block">Vue.js</div></a>
-<a href="filesList.htm"><div class="block">React</div></a>
-<a href="filesList.htm"><div class="block">Highcharts</div></a>
-<a href="filesList.htm"><div class="block">jQuery UI</div></a>
-<a href="filesList.htm"><div class="block">jQuery EasyUI</div></a>
-<a href="filesList.htm"><div class="block">Google地图</div></a>
-<a href="filesList.htm"><div class="block">百度地图</div></a>
-<a href="filesList.htm"><div class="block">JSON</div></a>
-<a href="filesList.htm"><div class="block">JSONP</div></a>
-<a href="filesList.htm"><div class="block">jQuery Mobile</div></a>
-<a href="filesList.htm"><div class="block">ionic</div></a>
-<a href="filesList.htm"><div class="block">SVG</div></a>
-<a href="filesList.htm"><div class="block">canvas</div></a>
+<div class="block">JS</div>
+<div class="block">jQuery</div>
+<div class="block">AngularJS</div>
+<div class="block">Vue.js</div>
+<div class="block">React</div>
+<div class="block">Highcharts</div>
+<div class="block">jQuery UI</div>
+<div class="block">jQuery EasyUI</div>
+<div class="block">Google地图</div>
+<div class="block">百度地图</div>
+<div class="block">JSON</div>
+<div class="block">JSONP</div>
+<div class="block">jQuery Mobile</div>
+<div class="block">ionic</div>
+<div class="block">SVG</div>
+<div class="block">canvas</div>
 </div>
 
 <div class="blocks_title">CSS</div>
 <div class="blocks">
-<a href="filesList.htm"><div class="block">CSS3</div></a>
-<a href="filesList.htm"><div class="block">Bootstrap</div></a>
-<a href="filesList.htm"><div class="block">Foundation</div></a>
-</div>
-<div class="blocks_title">java</div>
-<div class="blocks">
-<a href="filesList.htm"><div class="block">servlet</div></a>
-<a href="filesList.htm"><div class="block">socket</div></a>
-<a href="filesList.htm"><div class="block">excel</div></a>
-</div>
-<div class="blocks_title">springMVC</div>
-<div class="blocks">
-<a href="filesList.htm"><div class="block">servlet</div></a>
-<a href="filesList.htm"><div class="block">socket</div></a>
-<a href="filesList.htm"><div class="block">excel</div></a>
+<div class="block">CSS3</div>
+<div class="block">Bootstrap</div>
+<div class="block">Foundation</div>
 </div>

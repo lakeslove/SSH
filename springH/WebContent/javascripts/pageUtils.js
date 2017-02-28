@@ -51,11 +51,11 @@ function pageHelper(settings){
         }
          
         if(typeof settings.success=="function"){
-            createPagesString(settings.success);
+            createPagesString();
             settings.success(data);
         }
         
-        function createPagesString(callBack){
+        function createPagesString(){
             //获取翻页
             var sumpage = sizeOfAll%numPerPage==0?parseInt(sizeOfAll/numPerPage):parseInt(sizeOfAll/numPerPage)+1; 
             var startPage = parseInt((nowPage-1)/Num)*Num+1; var endPage = (startPage +Num-1)>sumpage?sumpage:startPage +Num-1;
