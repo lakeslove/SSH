@@ -89,7 +89,14 @@
 		<put-attribute name="title" value="view.top.title" />
 		<put-attribute name="css" value="" />
 		<put-attribute name="js" value="" />
-		<put-attribute name="body" value="/WEB-INF/view/js.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/others/js/js.jsp" />
+	</definition>
+	
+	<definition name="tiles.view.body.pictureShut" extends="tiles.template.public">
+		<put-attribute name="title" value="view.top.title" />
+		<put-attribute name="css" value="" />
+		<put-attribute name="js" value="" />
+		<put-attribute name="body" value="/WEB-INF/view/others/jsDemos/canvasPictureShut.jsp" />
 	</definition>
 	<!-- others结束 -->
 	

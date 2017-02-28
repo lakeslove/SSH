@@ -13,7 +13,7 @@ $(document).ready(function() {
 <div class="blocks_title">JS小例子</div>
 <div class="blocks">
 <div class="block">图片预览</div>
-<div class="block">canvas图片裁剪</div>
+<a href="pictureShut.htm"><div class="block">canvas图片裁剪</div></a>
 <div class="block">canvas数字识别</div>
 <div class="block">canvas动画</div>
 <div class="block">svg画板</div>
