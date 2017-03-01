@@ -1,0 +1,242 @@
+<style>
+        /*        定义车身与轮胎转到的动画（你会看到基本每一个动画都有四个版本的定义：原生版本/webkit【Chrome|Safari】/ms【为了向后兼容IE10】/moz【FireFox】） [css]*/
+        /*定义动画：从-400px的位置移动到1600px的位置*/
+        
+        @keyframes carAnimation {
+            0% {
+                left: -400px;
+            }
+            /* 指定初始位置，0%等同于from*/
+            100% {
+                left: 1600px;
+            }
+            /* 指定最终位置,100%等同于to*/
+        }
+        /* Safari and Chrome */
+        
+        @-webkit-keyframes carAnimation {
+            0% {
+                left: -400px;
+            }
+            100% {
+                left: 1600px;
+            }
+        }
+        /* Firefox */
+        
+        @-moz-keyframes carAnimation {
+            0% {
+                left: -400;
+            }
+            100% {
+                left: 1600px;
+            }
+        }
+        /*IE暂不支持,此处定义是为了向后兼容IE10*/
+        
+        @-ms-keyframes carAnimation {
+            0% {
+                left: -400px;
+            }
+            100% {
+                left: 1600px;
+            }
+        }
+        
+        [css] @keyframes tyreAnimation {
+            0% {
+                transform: rotate(0);
+            }
+            100% {
+                transform: rotate(1800deg);
+            }
+        }
+        
+        @-webkit-keyframes tyreAnimation {
+            0% {
+                -webkit-transform: rotate(0);
+            }
+            100% {
+                -webkit-transform: rotate(1800deg);
+            }
+        }
+        
+        @-moz-keyframes tyreAnimation {
+            0% {
+                -moz-transform: rotate(0);
+            }
+            100% {
+                -moz-transform: rotate(1800deg);
+            }
+        }
+        
+        @-ms-keyframes tyreAnimation {
+            0% {
+                -ms-transform: rotate(0);
+            }
+            100% {
+                -ms-transform: rotate(1800deg);
+            }
+        }
+        
+        [css] #container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            /*这个很重要*/
+        }
+        
+        #car {
+            position: absolute;
+            /*汽车在容器中采用绝对定位*/
+            width: 400px;
+            height: 210px;
+            /*汽车的总高度，包括轮胎和底盘*/
+            z-index: 1;
+            /*让汽车在背景的上方*/
+            top: 100px;
+            /*距顶端的距离(y轴)*/
+            left: 50px;
+            /*距左侧的距离(x轴)*/
+            /*以下内容赋予该元素预先定义的动画及相关属性*/
+            -webkit-animation-name: carAnimation;
+            /*名称*/
+            -webkit-animation-duration: 10s;
+            /*持续时间*/
+            -webkit-animation-iteration-count: infinite;
+            /*迭代次数-无限次*/
+            -webkit-animation-timing-function: linear;
+            /*播放动画时从头到尾都以相同的速度*/
+            -moz-animation-name: carAnimation;
+            /*名称*/
+            -moz-animation-duration: 10s;
+            /*持续时间*/
+            -moz-animation-iteration-count: infinite;
+            /*迭代次数-无限次*/
+            -moz-animation-timing-function: linear;
+            /*播放动画时从头到尾都以相同的速度*/
+            -ms-animation-name: carAnimation;
+            /*名称*/
+            -ms-animation-duration: 10s;
+            /*持续时间*/
+            -ms-animation-iteration-count: infinite;
+            /*迭代次数-无限次*/
+            -ms-animation-timing-function: linear;
+            /*播放动画时从头到尾都以相同的速度*/
+            animation-name: carAnimation;
+            /*名称*/
+            animation-duration: 10s;
+            /*持续时间*/
+            animation-iteration-count: infinite;
+            /*迭代次数-无限次*/
+            animation-timing-function: linear;
+            /*播放动画时从头到尾都以相同的速度*/
+        }
+        /*车身*/
+        
+        #chassis {
+            position: absolute;
+            width: 400px;
+            height: 130px;
+            background: #FF9900;
+            border: 2px solid #FF6600;
+        }
+        /*轮胎*/
+        
+        .tire {
+            z-index: 1;
+            /*同上，轮胎也应置于背景的上方*/
+            position: absolute;
+            bottom: 0;
+            border-radius: 60px;
+            /*圆半径*/
+            height: 120px;
+            /* 2*radius=height */
+            width: 120px;
+            /* 2*radius=width */
+            background: #0099FF;
+            /*填充色*/
+            border: 1px solid #3300FF;
+            -webkit-animation-name: tyreAnimation;
+            -webkit-animation-duration: 10s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: linear;
+            -moz-animation-name: tyreAnimation;
+            -moz-animation-duration: 10s;
+            -moz-animation-iteration-count: infinite;
+            -moz-animation-timing-function: linear;
+            -ms-animation-name: tyreAnimation;
+            -ms-animation-duration: 10s;
+            -ms-animation-iteration-count: infinite;
+            -ms-animation-timing-function: linear;
+            animation-name: tyreAnimation;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+        
+        #fronttire {
+            right: 20px;
+            /*设置右边的轮胎距离边缘的距离为20*/
+        }
+        
+        #backtire {
+            left: 20px;
+            /*设置左边的轮胎距离边缘的距离为20*/
+        }
+        
+        #grass {
+            position: absolute;
+            /*背景绝对定位在容器中*/
+            width: 100%;
+            height: 130px;
+            bottom: 0;
+            /*让背景色线性渐变,bottom,表示渐变的起始处，第一个颜色值是渐变的起始值，第二个颜色值是终止值*/
+            background: linear-grdaient(bottom, #33CC00, #66FF22);
+            background: -webkit-linear-gradient(bottom, #33CC00, #66FF22);
+            background: -moz-linear-gradient(bottom, #33CC00, #66FF22);
+            background: -ms-linear-gradient(bottom, #33CC00, #66FF22);
+        }
+        
+        .hr,
+        .vr {
+            position: absolute;
+            background: #3300FF;
+        }
+        
+        .hr {
+            height: 1px;
+            width: 100%;
+            /*轮胎的水平线*/
+            left: 0;
+            top: 60px;
+        }
+        
+        .vr {
+            width: 1px;
+            height: 100%;
+            /*轮胎的垂直线*/
+            left: 60px;
+            top: 0;
+        }
+        .blocks{
+		overflow:auto;
+		height:400px;
+		}
+
+    </style>
+    <div id="container">
+        <div id="car">
+            <div id="chassis"></div>
+            <div id="backtire" class="tire">
+                <div class="hr"></div>
+                <div class="vr"></div>
+            </div>
+            <div id="fronttire" class="tire">
+                <div class="hr"></div>
+                <div class="vr"></div>
+            </div>
+        </div>
+        <div id="grass"></div>
+    </div>

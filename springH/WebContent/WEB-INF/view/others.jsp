@@ -10,17 +10,19 @@ $(document).ready(function() {
 	$.changeSelectedNav("nav-others-id");
 });
 </script>
-<div class="blocks_title">JS小例子</div>
+<div class="blocks_title">小例子</div>
 <div class="blocks">
-<div class="block">图片预览</div>
+<div class="block">图片前台预览</div>
+<div class="block">图片后台预览</div>
+<a href="animate.htm"><div class="block">动画</div></a>
 <a href="pictureShut.htm"><div class="block">canvas图片裁剪</div></a>
-<div class="block">canvas数字识别</div>
-<div class="block">canvas动画</div>
+<a href="orcCanvas.htm"><div class="block">canvas数字识别</div></a>
 <div class="block">svg画板</div>
-<div class="block">计算器</div>
-<div class="block">日历</div>
+<a href="calculator.htm"><div class="block">计算器</div></a>
+<a href="calendar.htm"><div class="block">日历</div></a>
 <div class="block">防止二重提交</div>
 <a href="crud.htm"><div class="block">翻页函数</div></a>
+<div class="block">webRTC</div>
 </div>
 
 <div class="blocks_title">JS</div>

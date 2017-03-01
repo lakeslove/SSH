@@ -32,11 +32,11 @@ var pictureUtil = {
         var img_ctx = img_canvas.getContext('2d');
         img_ctx.translate(imgW/2,imgH/2);
         img_ctx.rotate(angle*Math.PI/180);
-        img_ctx.translate(-imgW/4,-imgH/4);  
+        img_ctx.translate(-imgW/4,-imgH/4);
         img_ctx.drawImage(img,0,0);
-        console.log(x);
-        console.log(imgW/4);
-        console.log(parseInt(x)+parseInt(imgW/4)+","+imgH/4+","+width+","+height);
+//        console.log(x);
+//        console.log(imgW/4);
+//        console.log(parseInt(x)+parseInt(imgW/4)+","+imgH/4+","+width+","+height);
         var subImgData = img_ctx.getImageData(x+imgW/4,y+imgH/4,width,height);
         
         var sub_canvas = document.createElement('canvas');
