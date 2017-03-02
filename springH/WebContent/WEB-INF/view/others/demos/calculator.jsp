@@ -79,9 +79,7 @@ $(document).ready(function() {
 </style>	
 <div class="blocks">
 <br>
-这不是一个成功的计算器，因为调用方法很蛋痛，<br>
-需要设置class="calculator" id="m_inputtext_id"，<br>
-需要设置id这就不好了，所以这不是一个插件，需要大改<br>
+这是一个很失败的计算器，谨记<br>
 <br>
 <input class="calculator" id="m_inputtext_id" style="border:solid 1px;"/>
 </div>
