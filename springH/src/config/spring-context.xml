@@ -33,6 +33,15 @@
 	<context:component-scan base-package="com.lx.daos.hibernate" />
 	<context:component-scan base-package="com.lx.services.hibernate" />
 	<!-- 需要扫描的包 end -->
+	
+	<mvc:annotation-driven validator="validator"/>
+	<!-- 数据验证 start -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	<!-- 数据验证 end -->
  	
  	<!-- viewResolver start -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -158,15 +167,6 @@
 		<property name="cacheSeconds" value="600" />
 	</bean>
 	<!-- 国际化（多语言对应） 结束-->
-	
-	<!-- 数据验证 start -->
-	<mvc:annotation-driven validator="validator"/>
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
-		<property name="validationMessageSource" ref="messageSource" />
-	</bean>
-	<!-- 数据验证 end -->
 	
 	<!-- 异常处理 start -->
 	<!-- <bean class="com.lx.exceptions.ExceptionHandler" /> -->
